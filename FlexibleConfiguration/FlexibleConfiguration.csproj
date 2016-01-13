@@ -43,7 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConfigurationContext.cs" />
+    <Compile Include="DefaultConfigurationContext.cs" />
     <Compile Include="IConfigurationContext.cs" />
     <Compile Include="PropertyEnumerator.cs" />
     <Compile Include="TargetBuilder.cs" />

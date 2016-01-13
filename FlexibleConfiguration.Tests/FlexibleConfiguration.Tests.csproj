@@ -71,6 +71,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Context_tests.cs" />
     <Compile Include="PropertyEnumerator_tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TargetBuilder_tests.cs" />
