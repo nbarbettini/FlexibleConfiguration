@@ -4,9 +4,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using YamlDotNet.Serialization;
 
 namespace FlexibleConfiguration.Providers
 {
@@ -28,24 +28,28 @@ namespace FlexibleConfiguration.Providers
                 return Enumerable.Empty<KeyValuePair<string, object>>();
             }
 
-            JObject deserialized = null;
-            try
-            {
-                deserialized = JsonConvert.DeserializeObject(this.json) as JObject;
+            var deserializer = new Deserializer();
+            IDictionary<object, object> deserialized = null;
 
-            }
-            catch (Exception ex)
+            using (var reader = new StringReader(this.json))
             {
-                throw new ParseException("Error parsing JSON. See the InnerException for details.", ex);
-            }
+                try
+                {
+                    deserialized = deserializer.Deserialize(reader) as IDictionary<object, object>;
+                }
+                catch (Exception ex)
+                {
+                    throw new ParseException("Error parsing JSON. See the InnerException for details.", ex);
+                }
 
-            if (deserialized == null)
-            {
-                throw new ParseException("Error parsing JSON. The result is null.");
-            }
+                if (deserialized == null)
+                {
+                    throw new ParseException("Error parsing JSON. The result is null.");
+                }
 
-            var enumerator = new JsonEnumerator(deserialized, this.root);
-            return enumerator.GetItems();
+                var enumerator = new YamlEnumerator(deserialized, this.root);
+                return enumerator.GetItems();
+            }
         }
     }
 }
