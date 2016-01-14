@@ -62,7 +62,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\EnvironmentVariablesProvider.cs" />
     <Compile Include="Providers\ExplicitProvider.cs" />
+    <Compile Include="Providers\JsonEnumerator.cs" />
     <Compile Include="Providers\YamlEnumerator.cs" />
+    <Compile Include="Providers\JsonProvider.cs" />
     <Compile Include="Providers\YamlProvider.cs" />
     <Compile Include="ValidationException.cs" />
   </ItemGroup>

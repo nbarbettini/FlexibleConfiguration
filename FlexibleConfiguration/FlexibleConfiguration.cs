@@ -66,7 +66,8 @@ namespace FlexibleConfiguration
 
         public void AddJson(string json, string root = null)
         {
-            throw new NotImplementedException();
+            var provider = new JsonProvider(json, root);
+            provider.ApplyConfiguration(this.context);
         }
 
         public void AddJsonFile(string filePath, bool required = true, string root = null)

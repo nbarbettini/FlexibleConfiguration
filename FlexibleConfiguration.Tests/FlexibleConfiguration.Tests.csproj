@@ -75,6 +75,7 @@
     <Compile Include="EndToEnd\Simple_tests.cs" />
     <Compile Include="EndToEnd\Then_tests.cs" />
     <Compile Include="EndToEnd\Verify_tests.cs" />
+    <Compile Include="EndToEnd\Json_tests.cs" />
     <Compile Include="EndToEnd\Yaml_tests.cs" />
     <Compile Include="Env_var_tests.cs" />
     <Compile Include="MoreConfig.cs" />

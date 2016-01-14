@@ -41,19 +41,17 @@ namespace FlexibleConfiguration.Providers
                 }
                 catch (Exception ex)
                 {
-                    throw new ParseException("Error parsing YAML file.", ex);
+                    throw new ParseException("Error parsing YAML. See the InnerException for details.", ex);
                 }
 
                 if (deserialized == null)
                 {
-                    throw new ParseException("Error parsing YAML file. The result is null.");
+                    throw new ParseException("Error parsing YAML. The result is null.");
                 }
 
                 var enumerator = new YamlEnumerator(deserialized, this.root);
                 return enumerator.GetItems();
             }
-
-            throw new NotImplementedException();
         }
     }
 }
