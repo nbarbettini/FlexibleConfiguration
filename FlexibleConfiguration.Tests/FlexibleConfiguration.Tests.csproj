@@ -75,11 +75,13 @@
     <Compile Include="EndToEnd\Simple_tests.cs" />
     <Compile Include="EndToEnd\Then_tests.cs" />
     <Compile Include="EndToEnd\Verify_tests.cs" />
+    <Compile Include="EndToEnd\Yaml_tests.cs" />
     <Compile Include="Env_var_tests.cs" />
     <Compile Include="MoreConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TargetBuilder_tests.cs" />
     <Compile Include="TestConfig.cs" />
+    <Compile Include="TypesConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

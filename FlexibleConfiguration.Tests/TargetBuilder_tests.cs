@@ -60,6 +60,23 @@ namespace FlexibleConfiguration.Tests
             result.Item2.Bar.ShouldBe(456);
         }
 
+        [Theory]
+        [InlineData(123)]
+        [InlineData("123")]
+        [InlineData((long)123)]
+        [InlineData((float)123)]
+        public void Converts_values_to_int(object value)
+        {
+            var fakeContext = Substitute.For<IConfigurationContext>();
+            fakeContext.Get("Int").Returns(value);
+
+            var builder = new TargetBuilder(typeof(TypesConfig), fakeContext);
+            var result = (TypesConfig)builder.Build();
+
+            int intValue = Convert.ToInt32(value);
+            result.Int.ShouldBe(intValue);
+        }
+
         private class TestFlatObject
         {
             public string Foo { get; set; }

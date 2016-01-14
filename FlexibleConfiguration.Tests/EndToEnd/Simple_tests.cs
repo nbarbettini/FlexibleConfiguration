@@ -54,7 +54,7 @@ namespace FlexibleConfiguration.Tests.EndToEnd
         }
 
         [Fact]
-        public void Adding_is_case_insensitive()
+        public void Matching_is_case_insensitive()
         {
             var configurationBuilder = new FlexibleConfiguration<TestConfig>();
 

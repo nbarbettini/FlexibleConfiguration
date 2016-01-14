@@ -48,7 +48,7 @@ namespace FlexibleConfiguration.Internal
                     var valueFromContext = this.context.Get(this.GetFullyQualifiedName(prop.Name));
                     if (valueFromContext != null)
                     {
-                        prop.SetValue(obj, valueFromContext);
+                        prop.SetValue(obj, CoerceTo(prop.PropertyType, valueFromContext));
                     }
                 }
                 else
@@ -67,6 +67,21 @@ namespace FlexibleConfiguration.Internal
             }
 
             return $"{this.breadcrumb}.{name}";
+        }
+
+        private static object CoerceTo(Type targetType, object value)
+        {
+            if (targetType == typeof(int))
+            {
+                return Convert.ToInt32(value);
+            }
+
+            if (targetType == typeof(string))
+            {
+                return value.ToString();
+            }
+
+            throw new NotImplementedException();
         }
 
         private static void ThrowIfInvalidTarget(Type targetType)

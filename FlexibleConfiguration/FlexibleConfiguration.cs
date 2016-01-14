@@ -77,7 +77,8 @@ namespace FlexibleConfiguration
 
         public void AddYaml(string yaml, string root = null)
         {
-            throw new NotImplementedException();
+            var provider = new YamlProvider(yaml, root);
+            provider.ApplyConfiguration(this.context);
         }
 
         public void AddYamlFile(string filePath, bool required = true, string root = null)
