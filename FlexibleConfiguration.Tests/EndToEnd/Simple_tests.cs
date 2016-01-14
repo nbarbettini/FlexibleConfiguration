@@ -92,6 +92,26 @@ namespace FlexibleConfiguration.Tests.EndToEnd
             config.More.Blarg.ShouldBe("rad!");
         }
 
-        //TODO add LIFO tests
+        [Fact]
+        public void Newer_values_overwrite_older_values()
+        {
+            var defaultConfiguration = new Dictionary<string, object>()
+            {
+                ["stringprop"] = "awesome",
+                ["MORE.Blah"] = "sweet",
+                ["more.blarg"] = "defaults"
+            };
+
+            var configurationBuilder = new FlexibleConfiguration<TestConfig>();
+
+            configurationBuilder.Add(defaultConfiguration);
+            configurationBuilder.Add("STRINGPROP", "foobar");
+            configurationBuilder.Add("more.blah", "baz");
+            var config = configurationBuilder.Build();
+
+            config.StringProp.ShouldBe("foobar");
+            config.More.Blah.ShouldBe("baz");
+            config.More.Blarg.ShouldBe("defaults");
+        }
     }
 }
