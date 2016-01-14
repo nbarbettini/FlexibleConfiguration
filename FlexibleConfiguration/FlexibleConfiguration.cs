@@ -2,6 +2,7 @@
 // Copyright (c) Nate Barbettini. All rights reserved.
 // </copyright>
 
+using System;
 using System.Collections.Generic;
 using FlexibleConfiguration.Internal;
 using FlexibleConfiguration.Providers;
@@ -43,6 +44,27 @@ namespace FlexibleConfiguration
         {
             var provider = new ExplicitConfigurationProvider(fullyQualifiedItems);
             provider.ApplyConfiguration(this.context);
+        }
+
+        /// <summary>
+        /// Determines whether a value exists at the given path.
+        /// </summary>
+        /// <param name="fullyQualifiedPath">The fully-qualified path, like <c>myValue</c> or <c>foo.bar.myValue</c>.</param>
+        /// <returns><see langword="true"/> if the value exists; <see langword="false"/> otherwise.</returns>
+        public bool Exists(string fullyQualifiedPath)
+            => this.context.Exists(fullyQualifiedPath);
+
+        /// <summary>
+        /// Verifies that the specified condition has been met. If not, a <see cref="ValidationException"/> is thrown.
+        /// </summary>
+        /// <param name="verificationFunc">The validation condition.</param>
+        /// <param name="errorMessage">The error message if validation fails.</param>
+        public void Verify(Func<IConfigurationContext, bool> verificationFunc, string errorMessage)
+        {
+            if (!verificationFunc(this.context))
+            {
+                throw new ValidationException(errorMessage);
+            }
         }
 
         /// <summary>

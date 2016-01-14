@@ -24,5 +24,12 @@ namespace FlexibleConfiguration
         /// <param name="fullyQualifiedPath">The fully-qualified path of the configuration value to add.</param>
         /// <param name="value">The configuration value to store.</param>
         void Put(string fullyQualifiedPath, object value);
+
+        /// <summary>
+        /// Determines whether a value exists at the given path.
+        /// </summary>
+        /// <param name="fullyQualifiedPath">The fully-qualified path.</param>
+        /// <returns><see langword="true"/> if the value exists; <see langword="false"/> otherwise.</returns>
+        bool Exists(string fullyQualifiedPath);
     }
 }

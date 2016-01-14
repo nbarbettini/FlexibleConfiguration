@@ -104,5 +104,12 @@ namespace FlexibleConfiguration.Internal
             currentLevel.TryGetValue(path.Last(), out value);
             return value;
         }
+
+        public bool Exists(string fullyQualifiedPath)
+        {
+            var value = this.Get(fullyQualifiedPath);
+
+            return value != null;
+        }
     }
 }

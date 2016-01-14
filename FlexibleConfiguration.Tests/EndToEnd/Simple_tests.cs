@@ -92,20 +92,6 @@ namespace FlexibleConfiguration.Tests.EndToEnd
             config.More.Blarg.ShouldBe("rad!");
         }
 
-        private class TestConfig
-        {
-            public string StringProp { get; set; }
-
-            public int IntProp { get; set; }
-
-            public MoreConfig More { get; set; }
-        }
-
-        private class MoreConfig
-        {
-            public string Blah { get; set; }
-
-            public string Blarg { get; set; }
-        }
+        //TODO add LIFO tests
     }
 }
