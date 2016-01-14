@@ -11,20 +11,20 @@ namespace FlexibleConfiguration.Internal
     {
         private readonly Type type;
         private readonly IConfigurationContext context;
-        private readonly string breadcrumb;
+        private readonly string root;
 
         public TargetBuilder(Type type, IConfigurationContext config)
             : this(type, config, null)
         {
         }
 
-        private TargetBuilder(Type type, IConfigurationContext context, string breadcrumb)
+        private TargetBuilder(Type type, IConfigurationContext context, string root)
         {
             ThrowIfInvalidTarget(type);
 
             this.type = type;
             this.context = context;
-            this.breadcrumb = breadcrumb;
+            this.root = root;
         }
 
         public object Build()
@@ -61,12 +61,12 @@ namespace FlexibleConfiguration.Internal
 
         private string GetFullyQualifiedName(string name)
         {
-            if (string.IsNullOrEmpty(this.breadcrumb))
+            if (string.IsNullOrEmpty(this.root))
             {
                 return name;
             }
 
-            return $"{this.breadcrumb}.{name}";
+            return $"{this.root}.{name}";
         }
 
         private static object CoerceTo(Type targetType, object value)
