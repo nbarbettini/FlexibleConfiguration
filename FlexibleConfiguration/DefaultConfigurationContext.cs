@@ -27,7 +27,9 @@ namespace FlexibleConfiguration
                 throw new ArgumentNullException(nameof(fullyQualifiedPath));
             }
 
-            var path = fullyQualifiedPath.Split('.');
+            var path = fullyQualifiedPath
+                .ToLower()
+                .Split('.');
             Map currentLevel = this.configMap;
 
             if (path.Length > 1)
@@ -67,7 +69,9 @@ namespace FlexibleConfiguration
                 return null;
             }
 
-            var path = fullyQualifiedPath.Split('.');
+            var path = fullyQualifiedPath
+                .ToLower()
+                .Split('.');
             Map currentLevel = this.configMap;
 
             if (path.Length > 1)

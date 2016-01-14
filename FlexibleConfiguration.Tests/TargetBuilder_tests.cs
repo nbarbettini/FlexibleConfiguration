@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using FlexibleConfiguration.Internal;
 using NSubstitute;
 using Shouldly;
 using Xunit;

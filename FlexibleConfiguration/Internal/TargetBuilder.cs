@@ -3,10 +3,9 @@
 // </copyright>
 
 using System;
-using System.Linq;
 using System.Reflection;
 
-namespace FlexibleConfiguration
+namespace FlexibleConfiguration.Internal
 {
     internal sealed class TargetBuilder
     {
