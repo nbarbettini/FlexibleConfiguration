@@ -58,6 +58,34 @@ namespace FlexibleConfiguration
             provider.ApplyConfiguration(this.context);
         }
 
+        public void AddFile(string filePath, bool required = true, string root = null)
+        {
+            var contents = ReadFile(filePath, required);
+            throw new NotImplementedException();
+        }
+
+        public void AddJson(string json, string root = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddJsonFile(string filePath, bool required = true, string root = null)
+        {
+            var json = ReadFile(filePath, required);
+            this.AddJson(json, root);
+        }
+
+        public void AddYaml(string yaml, string root = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddYamlFile(string filePath, bool required = true, string root = null)
+        {
+            var yaml = ReadFile(filePath, required);
+            this.AddYaml(yaml, root);
+        }
+
         /// <summary>
         /// Determines whether a value exists at the given path.
         /// </summary>
@@ -98,6 +126,17 @@ namespace FlexibleConfiguration
             var builder = new TargetBuilder(typeof(T), this.context);
 
             return (T)builder.Build();
+        }
+
+        private static string ReadFile(string filePath, bool required)
+        {
+            if (!System.IO.File.Exists(filePath)
+                && !required)
+            {
+                return null;
+            }
+
+            return System.IO.File.ReadAllText(filePath);
         }
     }
 }
