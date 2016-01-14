@@ -63,8 +63,31 @@ namespace FlexibleConfiguration.Tests
         [Theory]
         [InlineData(123)]
         [InlineData("123")]
+        [InlineData("-123")]
         [InlineData((long)123)]
         [InlineData((float)123)]
+        [InlineData(short.MaxValue)]
+        [InlineData(short.MinValue)]
+        public void Converts_values_to_short(object value)
+        {
+            var fakeContext = Substitute.For<IConfigurationContext>();
+            fakeContext.Get("Short").Returns(value);
+
+            var builder = new TargetBuilder(typeof(TypesConfig), fakeContext);
+            var result = (TypesConfig)builder.Build();
+
+            short shortValue = Convert.ToInt16(value);
+            result.Short.ShouldBe(shortValue);
+        }
+
+        [Theory]
+        [InlineData(12345)]
+        [InlineData("12345")]
+        [InlineData("-12345")]
+        [InlineData((long)123)]
+        [InlineData((float)123)]
+        [InlineData(int.MaxValue)]
+        [InlineData(int.MinValue)]
         public void Converts_values_to_int(object value)
         {
             var fakeContext = Substitute.For<IConfigurationContext>();
@@ -75,6 +98,61 @@ namespace FlexibleConfiguration.Tests
 
             int intValue = Convert.ToInt32(value);
             result.Int.ShouldBe(intValue);
+        }
+
+        [Theory]
+        [InlineData(1234567890)]
+        [InlineData("1234567890")]
+        [InlineData("-1234567890")]
+        [InlineData((float)1234567890)]
+        [InlineData(long.MaxValue)]
+        [InlineData(long.MinValue)]
+        public void Converts_values_to_long(object value)
+        {
+            var fakeContext = Substitute.For<IConfigurationContext>();
+            fakeContext.Get("Long").Returns(value);
+
+            var builder = new TargetBuilder(typeof(TypesConfig), fakeContext);
+            var result = (TypesConfig)builder.Build();
+
+            long longValue = Convert.ToInt64(value);
+            result.Long.ShouldBe(longValue);
+        }
+
+        [Theory]
+        [InlineData(12345.678)]
+        [InlineData("12345.678")]
+        [InlineData("-12345.678")]
+        [InlineData(float.MaxValue)]
+        [InlineData(float.MinValue)]
+        public void Converts_values_to_float(object value)
+        {
+            var fakeContext = Substitute.For<IConfigurationContext>();
+            fakeContext.Get("Float").Returns(value);
+
+            var builder = new TargetBuilder(typeof(TypesConfig), fakeContext);
+            var result = (TypesConfig)builder.Build();
+
+            float floatValue = Convert.ToSingle(value);
+            result.Float.ShouldBe(floatValue);
+        }
+
+        [Theory]
+        [InlineData(123456789.12345)]
+        [InlineData("123456789.12345")]
+        [InlineData("-123456789.12345")]
+        [InlineData(double.MaxValue)]
+        [InlineData(double.MinValue)]
+        public void Converts_values_to_double(object value)
+        {
+            var fakeContext = Substitute.For<IConfigurationContext>();
+            fakeContext.Get("Double").Returns(value);
+
+            var builder = new TargetBuilder(typeof(TypesConfig), fakeContext);
+            var result = (TypesConfig)builder.Build();
+
+            double doubleValue = Convert.ToDouble(value);
+            result.Double.ShouldBe(doubleValue);
         }
 
         private class TestFlatObject
