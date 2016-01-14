@@ -59,6 +59,28 @@ namespace FlexibleConfiguration.Tests
         }
 
         [Fact]
+        public void Matching_is_case_insensitive()
+        {
+            var fakeEnvironment = GetMockEnvironment(new Dictionary<string, object>()
+            {
+                ["foo"] = "bar",
+                ["bAR"] = 123,
+            });
+
+            var provider = new EnvironmentVariablesProvider(
+                fakeEnvironment,
+                default(EnvironmentVariableTarget),
+                fullyQualifiedPathsToLookFor: new string[] { "foo", "bar" },
+                prefix: null);
+
+            var context = new DefaultConfigurationContext();
+            provider.ApplyConfiguration(context);
+
+            context.Get("foo").ShouldBe("bar");
+            context.Get("bar").ShouldBe(123);
+        }
+
+        [Fact]
         public void Paths_use_underscores()
         {
             var fakeEnvironment = GetMockEnvironment(new Dictionary<string, object>()

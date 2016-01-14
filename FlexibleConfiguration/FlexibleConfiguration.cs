@@ -46,6 +46,12 @@ namespace FlexibleConfiguration
             provider.ApplyConfiguration(this.context);
         }
 
+        /// <summary>
+        /// Adds configuration from local environment variables.
+        /// </summary>
+        /// <param name="fullyQualifiedPathsToLookFor">The keys or paths to look for. Paths with periods (like <c>foo.bar</c>) are converted to underscores (like <c>foo_bar</c>).</param>
+        /// <param name="prefix">A prefix (like <c>prefix_</c>) to apply to <paramref name="fullyQualifiedPathsToLookFor"/>, or <see langword="null"/>.</param>
+        /// <param name="target">The <see cref="EnvironmentVariableTarget"/> location to retrieve environment variables from.</param>
         public void AddEnvironmentVariables(IEnumerable<string> fullyQualifiedPathsToLookFor, string prefix = null, EnvironmentVariableTarget target = default(EnvironmentVariableTarget))
         {
             var provider = new EnvironmentVariablesProvider(new DefaultEnvironmentVariables(), target, fullyQualifiedPathsToLookFor, prefix);
