@@ -18,6 +18,13 @@ namespace FlexibleConfiguration
         object Get(string fullyQualifiedPath);
 
         /// <summary>
+        /// Gets the string value stored at <paramref name="fullyQualifiedPath"/>.
+        /// </summary>
+        /// <param name="fullyQualifiedPath">The fully-qualified path of a configuration value.</param>
+        /// <returns>The string value, or <c>null</c> if no value exists.</returns>
+        string GetString(string fullyQualifiedPath);
+
+        /// <summary>
         /// Stores a configuration value.
         /// </summary>
         /// <remarks>If a value already exists at <paramref name="fullyQualifiedPath"/>, it is overwritten.</remarks>

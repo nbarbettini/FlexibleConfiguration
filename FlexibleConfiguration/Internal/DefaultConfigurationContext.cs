@@ -105,6 +105,13 @@ namespace FlexibleConfiguration.Internal
             return value;
         }
 
+        public string GetString(string fullyQualifiedPath)
+        {
+            var value = this.Get(fullyQualifiedPath);
+
+            return value?.ToString();
+        }
+
         public bool Exists(string fullyQualifiedPath)
         {
             var value = this.Get(fullyQualifiedPath);

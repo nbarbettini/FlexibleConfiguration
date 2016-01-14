@@ -39,5 +39,39 @@ namespace FlexibleConfiguration.Tests.EndToEnd
             Should.NotThrow(
                 () => configurationBuilder.Verify(ctx => ctx.Exists("foo"), "Does not exist"));
         }
+
+        [Fact]
+        public void Custom_logic_passing_does_not_throw()
+        {
+            var configurationBuilder = new FlexibleConfiguration<TestConfig>();
+
+            configurationBuilder.Add("foo", "bar");
+
+            Should.NotThrow(
+                () => configurationBuilder.Verify(
+                    ctx =>
+                    {
+                        var fooValue = ctx.GetString("foo");
+                        return fooValue == "bar";
+                    },
+                "Failed validation"));
+        }
+
+        [Fact]
+        public void Custom_logic_failing_throws()
+        {
+            var configurationBuilder = new FlexibleConfiguration<TestConfig>();
+
+            configurationBuilder.Add("foo", "baz");
+
+            Should.Throw<ValidationException>(
+                () => configurationBuilder.Verify(
+                    ctx =>
+                {
+                    var fooValue = ctx.GetString("foo");
+                    return fooValue == "bar";
+                },
+                "Failed validation"));
+        }
     }
 }
