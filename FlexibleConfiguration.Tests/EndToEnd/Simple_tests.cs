@@ -2,6 +2,7 @@
 // Copyright (c) Nate Barbettini. All rights reserved.
 // </copyright>
 
+using System.Collections.Generic;
 using Shouldly;
 using Xunit;
 
@@ -61,6 +62,28 @@ namespace FlexibleConfiguration.Tests.EndToEnd
             configurationBuilder.Add("Intprop", 456);
             configurationBuilder.Add("MORE.Blah", "sweet");
             configurationBuilder.Add("More.BLARG", "rad!");
+            var config = configurationBuilder.Build();
+
+            config.StringProp.ShouldBe("awesome");
+            config.IntProp.ShouldBe(456);
+            config.More.Blah.ShouldBe("sweet");
+            config.More.Blarg.ShouldBe("rad!");
+        }
+
+        [Fact]
+        public void Adding_from_list()
+        {
+            var defaultConfiguration = new Dictionary<string, object>()
+            {
+                ["stringprop"] = "awesome",
+                ["INTPROP"] = 456,
+                ["more.blah"] = "sweet",
+                ["MORE.Blarg"] = "rad!"
+            };
+
+            var configurationBuilder = new FlexibleConfiguration<TestConfig>();
+
+            configurationBuilder.Add(defaultConfiguration);
             var config = configurationBuilder.Build();
 
             config.StringProp.ShouldBe("awesome");

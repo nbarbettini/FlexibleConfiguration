@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FlexibleConfiguration.Internal;
+using FlexibleConfiguration.Providers;
 
 namespace FlexibleConfiguration
 {
@@ -22,8 +23,12 @@ namespace FlexibleConfiguration
         }
 
         public void Add(string fullyQualifiedPath, object value)
+            => this.Add(new KeyValuePair<string, object>[] { new KeyValuePair<string, object>(fullyQualifiedPath, value) });
+
+        public void Add(IEnumerable<KeyValuePair<string, object>> fullyQualifiedItems)
         {
-            this.context.Put(fullyQualifiedPath, value);
+            var provider = new ExplicitConfigurationProvider(fullyQualifiedItems);
+            provider.ApplyConfiguration(this.context);
         }
 
         public T Build()

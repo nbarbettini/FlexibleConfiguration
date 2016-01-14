@@ -2,6 +2,7 @@
 // Copyright (c) Nate Barbettini. All rights reserved.
 // </copyright>
 
+using FlexibleConfiguration.Internal;
 using Shouldly;
 using Xunit;
 

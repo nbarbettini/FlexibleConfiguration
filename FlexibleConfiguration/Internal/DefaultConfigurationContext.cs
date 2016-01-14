@@ -5,11 +5,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Map = System.Collections.Generic.IDictionary<string, object>;
 
-namespace FlexibleConfiguration
+namespace FlexibleConfiguration.Internal
 {
     internal sealed class DefaultConfigurationContext : IConfigurationContext
     {
