@@ -54,6 +54,26 @@ namespace FlexibleConfiguration.Tests.EndToEnd
         }
 
         [Fact]
+        public void Adding_multiple_values_directly()
+        {
+            var rawConfig = @"
+stringprop = cool
+intprop = 123
+more.blah = foo
+more.blarg = bar
+";
+            var configurationBuilder = new FlexibleConfiguration<TestConfig>();
+
+            configurationBuilder.Add(rawConfig);
+            var config = configurationBuilder.Build();
+
+            config.StringProp.ShouldBe("cool");
+            config.IntProp.ShouldBe(123);
+            config.More.Blah.ShouldBe("foo");
+            config.More.Blarg.ShouldBe("bar");
+        }
+
+        [Fact]
         public void Matching_is_case_insensitive()
         {
             var configurationBuilder = new FlexibleConfiguration<TestConfig>();

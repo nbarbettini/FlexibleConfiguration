@@ -46,6 +46,12 @@ namespace FlexibleConfiguration
             provider.ApplyConfiguration(this.context);
         }
 
+        public void Add(string configLines)
+        {
+            var provider = new StringProvider(configLines);
+            provider.ApplyConfiguration(this.context);
+        }
+
         /// <summary>
         /// Adds configuration from local environment variables.
         /// </summary>
@@ -61,7 +67,7 @@ namespace FlexibleConfiguration
         public void AddFile(string filePath, bool required = true, string root = null)
         {
             var contents = ReadFile(filePath, required);
-            throw new NotImplementedException();
+            this.Add(contents);
         }
 
         public void AddJson(string json, string root = null)
