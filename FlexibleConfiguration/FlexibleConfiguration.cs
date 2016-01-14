@@ -55,6 +55,16 @@ namespace FlexibleConfiguration
             => this.context.Exists(fullyQualifiedPath);
 
         /// <summary>
+        /// Executes an action against the current builder state.
+        /// </summary>
+        /// <remarks>Use this method to run additional post-processing after loading a configuration.</remarks>
+        /// <param name="postProcessingAction">The action to perform.</param>
+        public void Then(Action<IConfigurationContext> postProcessingAction)
+        {
+            postProcessingAction(this.context);
+        }
+
+        /// <summary>
         /// Verifies that the specified condition has been met. If not, a <see cref="ValidationException"/> is thrown.
         /// </summary>
         /// <param name="verificationFunc">The validation condition.</param>

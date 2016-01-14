@@ -33,6 +33,12 @@ namespace FlexibleConfiguration
         void Put(string fullyQualifiedPath, object value);
 
         /// <summary>
+        /// Removes the configuration value at <paramref name="fullyQualifiedPath"/>, if it exists.
+        /// </summary>
+        /// <param name="fullyQualifiedPath">The fully-qualified path of the configuration value to remove.</param>
+        void Remove(string fullyQualifiedPath);
+
+        /// <summary>
         /// Determines whether a value exists at the given path.
         /// </summary>
         /// <param name="fullyQualifiedPath">The fully-qualified path.</param>

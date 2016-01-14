@@ -105,6 +105,11 @@ namespace FlexibleConfiguration.Internal
             return value;
         }
 
+        public void Remove(string fullyQualifiedPath)
+        {
+            this.Put(fullyQualifiedPath, null);
+        }
+
         public string GetString(string fullyQualifiedPath)
         {
             var value = this.Get(fullyQualifiedPath);

@@ -23,5 +23,16 @@ namespace FlexibleConfiguration.Tests
 
             context.Get(fullyQualifiedPath).ShouldBe(value);
         }
+
+        [Fact]
+        public void Removing_value()
+        {
+            var context = new DefaultConfigurationContext();
+
+            context.Put("foo.bar.baz", 123);
+            context.Remove("foo.bar.baz");
+
+            context.Get("foo.bar.baz").ShouldBe(null);
+        }
     }
 }
