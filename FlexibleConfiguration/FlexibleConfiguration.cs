@@ -42,7 +42,13 @@ namespace FlexibleConfiguration
         /// </param>
         public void Add(IEnumerable<KeyValuePair<string, object>> fullyQualifiedItems)
         {
-            var provider = new ExplicitConfigurationProvider(fullyQualifiedItems);
+            var provider = new ExplicitProvider(fullyQualifiedItems);
+            provider.ApplyConfiguration(this.context);
+        }
+
+        public void AddEnvironmentVariables(IEnumerable<string> fullyQualifiedPathsToLookFor, string prefix = null, EnvironmentVariableTarget target = default(EnvironmentVariableTarget))
+        {
+            var provider = new EnvironmentVariablesProvider(new DefaultEnvironmentVariables(), target, fullyQualifiedPathsToLookFor, prefix);
             provider.ApplyConfiguration(this.context);
         }
 

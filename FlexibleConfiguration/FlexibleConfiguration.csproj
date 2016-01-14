@@ -46,10 +46,13 @@
     <Compile Include="Internal\DefaultConfigurationContext.cs" />
     <Compile Include="FlexibleConfiguration.cs" />
     <Compile Include="IConfigurationContext.cs" />
+    <Compile Include="Internal\DefaultEnvironmentVariables.cs" />
+    <Compile Include="Internal\IEnvironmentVariables.cs" />
     <Compile Include="Providers\AbstractConfigurationProvider.cs" />
     <Compile Include="Internal\TargetBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Providers\ExplicitConfigurationProvider.cs" />
+    <Compile Include="Providers\EnvironmentVariablesProvider.cs" />
+    <Compile Include="Providers\ExplicitProvider.cs" />
     <Compile Include="ValidationException.cs" />
   </ItemGroup>
   <ItemGroup>
