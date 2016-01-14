@@ -86,5 +86,21 @@ more:
             config.More.Blah.ShouldBe("baz");
             config.More.Blarg.ShouldBe("qux");
         }
+
+        [Fact]
+        public void Applies_root()
+        {
+            string yaml = @"
+blah: baz
+blarg: qux
+";
+            var configurationBuilder = new FlexibleConfiguration<TestConfig>();
+
+            configurationBuilder.AddYaml(yaml, "more");
+            var config = configurationBuilder.Build();
+
+            config.More.Blah.ShouldBe("baz");
+            config.More.Blarg.ShouldBe("qux");
+        }
     }
 }
