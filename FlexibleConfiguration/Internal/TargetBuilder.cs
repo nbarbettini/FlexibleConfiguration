@@ -78,27 +78,27 @@ namespace FlexibleConfiguration.Internal
 
         private static object CoerceTo(Type targetType, object value)
         {
-            if (targetType == typeof(short))
+            if (targetType == typeof(short) || targetType == typeof(short?))
             {
                 return Convert.ToInt16(value);
             }
 
-            if (targetType == typeof(int))
+            if (targetType == typeof(int) || targetType == typeof(int?))
             {
                 return Convert.ToInt32(value);
             }
 
-            if (targetType == typeof(long))
+            if (targetType == typeof(long) || targetType == typeof(long?))
             {
                 return Convert.ToInt64(value);
             }
 
-            if (targetType == typeof(float))
+            if (targetType == typeof(float) || targetType == typeof(float?))
             {
                 return Convert.ToSingle(value);
             }
 
-            if (targetType == typeof(double))
+            if (targetType == typeof(double) || targetType == typeof(double?))
             {
                 return Convert.ToDouble(value);
             }

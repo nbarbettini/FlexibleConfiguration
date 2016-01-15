@@ -15,5 +15,15 @@ namespace FlexibleConfiguration.Tests
         public float Float { get; set; }
 
         public double Double { get; set; }
+
+        public short? NullableShort { get; set; }
+
+        public int? NullableInt { get; set; }
+
+        public long? NullableLong { get; set; }
+
+        public float? NullableFloat { get; set; }
+
+        public double? NullableDouble { get; set; }
     }
 }
