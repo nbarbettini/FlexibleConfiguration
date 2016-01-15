@@ -1,7 +1,7 @@
 language: csharp
-solution: "./FlexibleConfiguration/FlexibleConfiguration.sln"
+solution: FlexibleConfiguration.sln
 install:
-- travis_retry nuget restore -source "https://www.nuget.org/api/v2" ./FlexibleConfiguration/FlexibleConfiguration.sln
+- travis_retry nuget restore -source "https://www.nuget.org/api/v2" ./FlexibleConfiguration.sln
 script:
-- xbuild ./FlexibleConfiguration/FlexibleConfiguration.sln
-- mono ./Stormpath.SDK/packages/xunit.runner.console*/tools/xunit.console.exe ./FlexibleConfiguration/FlexibleConfiguration.Tests/bin/Debug/FlexibleConfiguration.Tests.dll
+- xbuild ./FlexibleConfiguration.sln
+- mono ./packages/xunit.runner.console*/tools/xunit.console.exe ./FlexibleConfiguration.Tests/bin/Debug/FlexibleConfiguration.Tests.dll
