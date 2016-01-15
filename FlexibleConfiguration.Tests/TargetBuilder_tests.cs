@@ -68,5 +68,23 @@ namespace FlexibleConfiguration.Tests
 
             Should.Throw<ValidationException>(() => builder.Build());
         }
+
+        [Fact]
+        public void Constructs_target_with_private_setters()
+        {
+            var fakeContext = Substitute.For<IConfigurationContext>();
+            fakeContext.Get("StringProp").Returns("Qux");
+            fakeContext.Get("IntProp").Returns(123);
+            fakeContext.Get("More.Blah").Returns("Foo1");
+            fakeContext.Get("More.Blarg").Returns("Foo2");
+
+            var builder = new TargetBuilder(typeof(TestConfigPrivate), fakeContext);
+            var result = (TestConfigPrivate)builder.Build();
+
+            result.StringProp.ShouldBe("Qux");
+            result.IntProp.ShouldBe(123);
+            result.More.Blah.ShouldBe("Foo1");
+            result.More.Blarg.ShouldBe("Foo2");
+        }
     }
 }
