@@ -50,7 +50,7 @@ namespace FlexibleConfiguration.Internal
                     {
                         try
                         {
-                            prop.SetValue(obj, CoerceTo(prop.PropertyType, valueFromContext));
+                            prop.SetValue(obj, CoerceTo(prop.PropertyType, valueFromContext), null);
                         }
                         catch (Exception ex)
                         {
@@ -61,7 +61,7 @@ namespace FlexibleConfiguration.Internal
                 else
                 {
                     var childBuilder = new TargetBuilder(prop.PropertyType, this.context, this.GetFullyQualifiedName(prop.Name));
-                    prop.SetValue(obj, childBuilder.Build());
+                    prop.SetValue(obj, childBuilder.Build(), null);
                 }
             }
         }
