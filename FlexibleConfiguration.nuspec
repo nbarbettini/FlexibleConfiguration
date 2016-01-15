@@ -7,11 +7,11 @@
         <licenseUrl>https://github.com/nbarbettini/FlexibleConfiguration/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/nbarbettini/FlexibleConfiguration</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <description>Configure a .NET application from a variety of sources.</description>
+        <description>Configure a .NET application from a variety of sources</description>
         <language>en-US</language>
         <tags>configuration json yaml environment</tags>
     </metadata>
     <files>
-        <file src="FlexibleConfiguration\bin\Release\FlexibleConfiguration.dll" target="lib\net45\Stormpath.SDK.dll" />
+        <file src="FlexibleConfiguration\bin\Release\FlexibleConfiguration.dll" target="lib\net35\FlexibleCOnfiguration.dll" />
     </files>
 </package>
