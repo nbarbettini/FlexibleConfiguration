@@ -41,7 +41,7 @@ namespace FlexibleConfiguration.Providers
                 }
                 catch (Exception ex)
                 {
-                    throw new ParseException("Error parsing YAML. See the InnerException for details.", ex);
+                    throw new ParseException("Error parsing YAML. See the inner exception for details.", ex);
                 }
 
                 if (deserialized == null)

@@ -17,8 +17,9 @@ namespace FlexibleConfiguration
         /// with a specified error message.
         /// </summary>
         /// <param name="message">A message that describes the error.</param>
-        public ValidationException(string message)
-            : base(message)
+        /// <param name="innerException">The inner exception.</param>
+        public ValidationException(string message, Exception innerException = null)
+            : base(message, innerException)
         {
         }
     }

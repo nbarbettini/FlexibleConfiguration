@@ -17,7 +17,7 @@ namespace FlexibleConfiguration
         /// with a specified error message.
         /// </summary>
         /// <param name="message">A message that describes the error.</param>
-        /// <param name="innerException">The inner exception, if any.</param>
+        /// <param name="innerException">The inner exception.</param>
         public ParseException(string message, Exception innerException = null)
             : base(message, innerException)
         {

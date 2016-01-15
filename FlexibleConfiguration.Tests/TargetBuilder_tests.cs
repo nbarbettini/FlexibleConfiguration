@@ -30,34 +30,43 @@ namespace FlexibleConfiguration.Tests
         public void Constructs_flat_object()
         {
             var fakeContext = Substitute.For<IConfigurationContext>();
-            fakeContext.Get("Foo").Returns("Working!");
-            fakeContext.Get("Bar").Returns(123);
+            fakeContext.Get("Blah").Returns("Working!");
+            fakeContext.Get("Blarg").Returns("Ok");
 
-            var builder = new TargetBuilder(typeof(TestFlatObject), fakeContext);
-            var result = (TestFlatObject)builder.Build();
+            var builder = new TargetBuilder(typeof(MoreConfig), fakeContext);
+            var result = (MoreConfig)builder.Build();
 
-            result.Foo.ShouldBe("Working!");
-            result.Bar.ShouldBe(123);
+            result.Blah.ShouldBe("Working!");
+            result.Blarg.ShouldBe("Ok");
         }
 
         [Fact]
         public void Constructs_nested_object()
         {
             var fakeContext = Substitute.For<IConfigurationContext>();
-            fakeContext.Get("Qux").Returns("Qux");
-            fakeContext.Get("Item1.Foo").Returns("Foo1");
-            fakeContext.Get("Item1.Bar").Returns(123);
-            fakeContext.Get("Item2.Foo").Returns("Foo2");
-            fakeContext.Get("Item2.Bar").Returns(456);
+            fakeContext.Get("StringProp").Returns("Qux");
+            fakeContext.Get("IntProp").Returns(123);
+            fakeContext.Get("More.Blah").Returns("Foo1");
+            fakeContext.Get("More.Blarg").Returns("Foo2");
 
-            var builder = new TargetBuilder(typeof(TestNestedObject), fakeContext);
-            var result = (TestNestedObject)builder.Build();
+            var builder = new TargetBuilder(typeof(TestConfig), fakeContext);
+            var result = (TestConfig)builder.Build();
 
-            result.Qux.ShouldBe("Qux");
-            result.Item1.Foo.ShouldBe("Foo1");
-            result.Item1.Bar.ShouldBe(123);
-            result.Item2.Foo.ShouldBe("Foo2");
-            result.Item2.Bar.ShouldBe(456);
+            result.StringProp.ShouldBe("Qux");
+            result.IntProp.ShouldBe(123);
+            result.More.Blah.ShouldBe("Foo1");
+            result.More.Blarg.ShouldBe("Foo2");
+        }
+
+        [Fact]
+        public void Throws_ValidationException_for_mismatched_type()
+        {
+            var fakeContext = Substitute.For<IConfigurationContext>();
+            fakeContext.Get("IntProp").Returns("Qux");
+
+            var builder = new TargetBuilder(typeof(TestConfig), fakeContext);
+
+            Should.Throw<ValidationException>(() => builder.Build());
         }
 
         [Theory]
@@ -153,22 +162,6 @@ namespace FlexibleConfiguration.Tests
 
             double doubleValue = Convert.ToDouble(value);
             result.Double.ShouldBe(doubleValue);
-        }
-
-        private class TestFlatObject
-        {
-            public string Foo { get; set; }
-
-            public int Bar { get; set; }
-        }
-
-        private class TestNestedObject
-        {
-            public string Qux { get; set; }
-
-            public TestFlatObject Item1 { get; set; }
-
-            public TestFlatObject Item2 { get; set; }
         }
     }
 }

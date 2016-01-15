@@ -134,5 +134,19 @@ namespace FlexibleConfiguration.Tests.EndToEnd
 
             Should.NotThrow(() => configurationBuilder.AddJsonFile("non_existent.json", required: false));
         }
+
+        [Fact]
+        public void Throws_ParseException_for_malformed_json()
+        {
+            string json = @"
+{
+    ""blah"": ""baz""
+    ""blarg"": ""qux""
+
+";
+            var configurationBuilder = new FlexibleConfiguration<TestConfig>();
+
+            Should.Throw<ParseException>(() => configurationBuilder.AddJson(json));
+        }
     }
 }

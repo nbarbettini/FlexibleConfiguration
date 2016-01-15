@@ -48,7 +48,14 @@ namespace FlexibleConfiguration.Internal
                     var valueFromContext = this.context.Get(this.GetFullyQualifiedName(prop.Name));
                     if (valueFromContext != null)
                     {
-                        prop.SetValue(obj, CoerceTo(prop.PropertyType, valueFromContext));
+                        try
+                        {
+                            prop.SetValue(obj, CoerceTo(prop.PropertyType, valueFromContext));
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new ValidationException($"Could not set value '{valueFromContext}' for configuration property '{prop.Name}'. See the inner exception for details.", ex);
+                        }
                     }
                 }
                 else
@@ -101,7 +108,7 @@ namespace FlexibleConfiguration.Internal
                 return value.ToString();
             }
 
-            throw new NotImplementedException();
+            throw new ValidationException($"The type '{targetType.Name}' is not a supported configuration target type.");
         }
 
         private static void ThrowIfInvalidTarget(Type targetType)

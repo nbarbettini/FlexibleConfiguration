@@ -119,5 +119,16 @@ blarg: qux
 
             Should.NotThrow(() => configurationBuilder.AddYamlFile("non_existent.yaml", required: false));
         }
+
+        [Fact]
+        public void Throws_ParseException_for_malformed_yaml()
+        {
+            string yaml = @"
+blah baz
+blarg: qux
+";
+            var configurationBuilder = new FlexibleConfiguration<TestConfig>();
+            Should.Throw<ParseException>(() => configurationBuilder.AddYaml(yaml));
+        }
     }
 }

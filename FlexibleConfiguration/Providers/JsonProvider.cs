@@ -39,7 +39,7 @@ namespace FlexibleConfiguration.Providers
                 }
                 catch (Exception ex)
                 {
-                    throw new ParseException("Error parsing JSON. See the InnerException for details.", ex);
+                    throw new ParseException("Error parsing JSON. See the inner exception for details.", ex);
                 }
 
                 if (deserialized == null)
