@@ -46,10 +46,42 @@ namespace FlexibleConfiguration
             provider.ApplyConfiguration(this.context);
         }
 
-        public void Add(string configLines)
+        /// <summary>
+        /// Adds configuration values from a string.
+        /// </summary>
+        /// <remarks>
+        /// Each line in the string will be treated as a separate configuration value, with the format:
+        /// <c>foo.bar = value</c>
+        /// </remarks>
+        /// <param name="multiLineConfiguration">The configuration string.</param>
+        public void Add(string multiLineConfiguration)
         {
-            var provider = new StringProvider(configLines);
+            var provider = new StringProvider(multiLineConfiguration);
             provider.ApplyConfiguration(this.context);
+        }
+
+        /// <summary>
+        /// Adds configuration values from a text file.
+        /// </summary>
+        /// <remarks>
+        /// Each line in the file will be treated as a separate configuration value, with the format:
+        /// <c>foo.bar = value</c>
+        /// </remarks>
+        /// <param name="filePath">The file path.</param>
+        /// <param name="required">
+        /// Determines whether the file can be skipped silently. If <paramref name="required"/> is <see langword="true"/>,
+        /// and the file does not exist, a <see cref="System.IO.FileNotFoundException"/> will be thrown. If <paramref name="required"/>
+        /// is <see langword="false"/>, the method will return silently.
+        /// </param>
+        /// <param name="root">
+        /// An optional root name to apply to any configuration values.
+        /// For example, if <paramref name="root"/> is <c>foo</c>, and the value <c>bar = baz</c>
+        /// is discovered, the actual added value will be <c>foo.bar = baz</c>.
+        /// </param>
+        public void AddFile(string filePath, bool required = true, string root = null)
+        {
+            var contents = ReadFile(filePath, required);
+            this.Add(contents);
         }
 
         /// <summary>
@@ -64,30 +96,70 @@ namespace FlexibleConfiguration
             provider.ApplyConfiguration(this.context);
         }
 
-        public void AddFile(string filePath, bool required = true, string root = null)
-        {
-            var contents = ReadFile(filePath, required);
-            this.Add(contents);
-        }
-
+        /// <summary>
+        /// Adds configuration values from a JSON string.
+        /// </summary>
+        /// <param name="json">The JSON string.</param>
+        /// <param name="root">
+        /// An optional root name to apply to any configuration values.
+        /// For example, if <paramref name="root"/> is <c>foo</c>, and the value <c>bar = baz</c>
+        /// is discovered, the actual added value will be <c>foo.bar = baz</c>.
+        /// </param>
         public void AddJson(string json, string root = null)
         {
             var provider = new JsonProvider(json, root);
             provider.ApplyConfiguration(this.context);
         }
 
+        /// <summary>
+        /// Adds configuration values from a JSON file.
+        /// </summary>
+        /// <param name="filePath">The file path.</param>
+        /// <param name="required">
+        /// Determines whether the file can be skipped silently. If <paramref name="required"/> is <see langword="true"/>,
+        /// and the file does not exist, a <see cref="System.IO.FileNotFoundException"/> will be thrown. If <paramref name="required"/>
+        /// is <see langword="false"/>, the method will return silently.
+        /// </param>
+        /// <param name="root">
+        /// An optional root name to apply to any configuration values.
+        /// For example, if <paramref name="root"/> is <c>foo</c>, and the value <c>bar = baz</c>
+        /// is discovered, the actual added value will be <c>foo.bar = baz</c>.
+        /// </param>
         public void AddJsonFile(string filePath, bool required = true, string root = null)
         {
             var json = ReadFile(filePath, required);
             this.AddJson(json, root);
         }
 
+        /// <summary>
+        /// Adds configuration values from a YAML string.
+        /// </summary>
+        /// <param name="yaml">The YAML string.</param>
+        /// <param name="root">
+        /// An optional root name to apply to any configuration values.
+        /// For example, if <paramref name="root"/> is <c>foo</c>, and the value <c>bar = baz</c>
+        /// is discovered, the actual added value will be <c>foo.bar = baz</c>.
+        /// </param>
         public void AddYaml(string yaml, string root = null)
         {
             var provider = new YamlProvider(yaml, root);
             provider.ApplyConfiguration(this.context);
         }
 
+        /// <summary>
+        /// Adds configuration values from a YAML file.
+        /// </summary>
+        /// <param name="filePath">The file path.</param>
+        /// <param name="required">
+        /// Determines whether the file can be skipped silently. If <paramref name="required"/> is <see langword="true"/>,
+        /// and the file does not exist, a <see cref="System.IO.FileNotFoundException"/> will be thrown. If <paramref name="required"/>
+        /// is <see langword="false"/>, the method will return silently.
+        /// </param>
+        /// <param name="root">
+        /// An optional root name to apply to any configuration values.
+        /// For example, if <paramref name="root"/> is <c>foo</c>, and the value <c>bar = baz</c>
+        /// is discovered, the actual added value will be <c>foo.bar = baz</c>.
+        /// </param>
         public void AddYamlFile(string filePath, bool required = true, string root = null)
         {
             var yaml = ReadFile(filePath, required);

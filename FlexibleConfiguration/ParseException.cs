@@ -9,6 +9,7 @@ namespace FlexibleConfiguration
     /// <summary>
     /// Represents an error that occurs when parsing a configuration source.
     /// </summary>
+    [Serializable]
     public sealed class ParseException : ApplicationException
     {
         /// <summary>

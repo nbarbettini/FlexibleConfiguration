@@ -9,6 +9,7 @@ namespace FlexibleConfiguration
     /// <summary>
     /// Represents a configuration validation error.
     /// </summary>
+    [Serializable]
     public sealed class ValidationException : ApplicationException
     {
         /// <summary>
