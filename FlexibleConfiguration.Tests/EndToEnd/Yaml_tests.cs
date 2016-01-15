@@ -2,6 +2,7 @@
 // Copyright (c) Nate Barbettini. All rights reserved.
 // </copyright>
 
+using System.IO;
 using Shouldly;
 using Xunit;
 
@@ -101,6 +102,22 @@ blarg: qux
 
             config.More.Blah.ShouldBe("baz");
             config.More.Blarg.ShouldBe("qux");
+        }
+
+        [Fact]
+        public void Adding_missing_file_throws_when_required()
+        {
+            var configurationBuilder = new FlexibleConfiguration<TestConfig>();
+
+            Should.Throw<FileNotFoundException>(() => configurationBuilder.AddYamlFile("non_existent.yaml", required: true));
+        }
+
+        [Fact]
+        public void Adding_missing_file_returns_null()
+        {
+            var configurationBuilder = new FlexibleConfiguration<TestConfig>();
+
+            Should.NotThrow(() => configurationBuilder.AddYamlFile("non_existent.yaml", required: false));
         }
     }
 }

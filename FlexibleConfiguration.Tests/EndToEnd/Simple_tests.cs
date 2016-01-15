@@ -11,9 +11,22 @@ namespace FlexibleConfiguration.Tests.EndToEnd
     public class Simple_tests
     {
         [Fact]
-        public void Building_empty_target()
+        public void Adding_nothing()
         {
             var configurationBuilder = new FlexibleConfiguration<TestConfig>();
+
+            var config = configurationBuilder.Build();
+
+            config.StringProp.ShouldBe(default(string));
+            config.IntProp.ShouldBe(default(int));
+            config.More.ShouldNotBeNull();
+        }
+
+        [Fact]
+        public void Adding_empty_string()
+        {
+            var configurationBuilder = new FlexibleConfiguration<TestConfig>();
+            configurationBuilder.Add(string.Empty);
 
             var config = configurationBuilder.Build();
 

@@ -2,6 +2,7 @@
 // Copyright (c) Nate Barbettini. All rights reserved.
 // </copyright>
 
+using System.IO;
 using Shouldly;
 using Xunit;
 
@@ -116,6 +117,22 @@ namespace FlexibleConfiguration.Tests.EndToEnd
 
             config.More.Blah.ShouldBe("baz");
             config.More.Blarg.ShouldBe("qux");
+        }
+
+        [Fact]
+        public void Adding_missing_file_throws_when_required()
+        {
+            var configurationBuilder = new FlexibleConfiguration<TestConfig>();
+
+            Should.Throw<FileNotFoundException>(() => configurationBuilder.AddJsonFile("non_existent.json", required: true));
+        }
+
+        [Fact]
+        public void Adding_missing_file_returns_null()
+        {
+            var configurationBuilder = new FlexibleConfiguration<TestConfig>();
+
+            Should.NotThrow(() => configurationBuilder.AddJsonFile("non_existent.json", required: false));
         }
     }
 }

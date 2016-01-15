@@ -12,7 +12,10 @@ namespace FlexibleConfiguration.Providers
         {
             foreach (var item in this.GetItems())
             {
-                context.Put(item.Key, item.Value);
+                if (!item.Equals(default(KeyValuePair<string, object>)))
+                {
+                    context.Put(item.Key, item.Value);
+                }
             }
         }
 
