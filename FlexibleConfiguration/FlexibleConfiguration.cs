@@ -198,6 +198,14 @@ namespace FlexibleConfiguration
         }
 
         /// <summary>
+        /// Gets a raw value from the internal configuration context.
+        /// </summary>
+        /// <param name="fullyQualifiedPath">The fully-qualified path, like <c>myValue</c> or <c>foo.bar.myValue</c>.</param>
+        /// <returns>The value stored at <paramref name="fullyQualifiedPath"/>, or <see langword="null"/>.</returns>
+        public object Get(string fullyQualifiedPath)
+            => this.context.Get(fullyQualifiedPath);
+
+        /// <summary>
         /// Constructs the target configuration object based on the current builder state.
         /// </summary>
         /// <returns>An instance of <typeparamref name="T"/>.</returns>

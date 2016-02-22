@@ -25,6 +25,17 @@ namespace FlexibleConfiguration.Tests
         }
 
         [Fact]
+        public void Getting_nonexistent_value()
+        {
+            var context = new DefaultConfigurationContext();
+
+            context.Put("foo.bar", null);
+
+            context.Get("foo.bar").ShouldBeNull();
+            context.Get("foo.baz").ShouldBeNull();
+        }
+
+        [Fact]
         public void Removing_value()
         {
             var context = new DefaultConfigurationContext();
