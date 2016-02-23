@@ -10,7 +10,7 @@ namespace FlexibleConfiguration.Providers
 {
     public static class FileOperations
     {
-        public static string Load(string path)
+        public static string Load(string path, bool required)
         {
             throw new NotImplementedException();
         }

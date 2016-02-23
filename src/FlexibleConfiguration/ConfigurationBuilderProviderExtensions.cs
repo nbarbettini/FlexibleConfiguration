@@ -64,8 +64,53 @@ namespace FlexibleConfiguration
             bool required = true,
             string root = null)
         {
-            var json = FileOperations.Load(filePath);
+            var json = FileOperations.Load(filePath, required);
             return builder.AddJson(json, root);
+        }
+
+
+
+        /// <summary>
+        /// Adds configuration values from a YAML string.
+        /// </summary>
+        /// <param name="yaml">The YAML string.</param>
+        /// <param name="root">
+        /// An optional root name to apply to any configuration values.
+        /// For example, if <paramref name="root"/> is <c>foo</c>, and the value <c>bar = baz</c>
+        /// is discovered, the actual added value will be <c>foo.bar = baz</c>.
+        /// </param>
+        public static ConfigurationBuilder AddYaml(
+            this ConfigurationBuilder builder,
+            string yaml,
+            string root = null)
+        {
+            var provider = new YamlProvider(yaml, root);
+            builder.Add(provider);
+            return builder;
+        }
+
+        /// <summary>
+        /// Adds configuration values from a YAML file.
+        /// </summary>
+        /// <param name="filePath">The file path.</param>
+        /// <param name="required">
+        /// Determines whether the file can be skipped silently. If <paramref name="required"/> is <see langword="true"/>,
+        /// and the file does not exist, a <see cref="System.IO.FileNotFoundException"/> will be thrown. If <paramref name="required"/>
+        /// is <see langword="false"/>, the method will return silently.
+        /// </param>
+        /// <param name="root">
+        /// An optional root name to apply to any configuration values.
+        /// For example, if <paramref name="root"/> is <c>foo</c>, and the value <c>bar = baz</c>
+        /// is discovered, the actual added value will be <c>foo.bar = baz</c>.
+        /// </param>
+        public static ConfigurationBuilder AddYamlFile(
+            this ConfigurationBuilder builder,
+            string filePath,
+            bool required = true,
+            string root = null)
+        {
+            var yaml = FileOperations.Load(filePath, required);
+            return builder.AddYaml(yaml, root);
         }
     }
 }
