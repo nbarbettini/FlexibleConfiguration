@@ -8,6 +8,13 @@ Currently, these sources are supported:
 * JSON (from a string or file)
 * YAML (from a string or file)
 
+## Supported Platforms
+
+* .NET Framework 3.5 and higher
+* CoreCLR (`dotnet5.4`/`netstandard1.3`)
+* DNX (`dnxcore50`)
+* Windows Store & UWP (`netcore50`)
+
 ## Getting the Code
 
 * ~~Via nuget: `install-package FlexibleConfiguration`~~ (not yet available)
@@ -21,14 +28,14 @@ First, define a POCO that represents your configuration tree:
 class MyAppConfiguration
 {
   public ConnectionConfig Connection { get; private set; }
-  
+
   public string AppTitle { get; private set; }
 }
 
 class ConnectionConfig
 {
   public int Timeout { get; private set; }
-  
+
   public string ApiUrl { get; private set; }
 }
 ```
