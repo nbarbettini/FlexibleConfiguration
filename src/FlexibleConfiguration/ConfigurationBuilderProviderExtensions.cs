@@ -160,7 +160,7 @@ namespace FlexibleConfiguration
             string root = null)
         {
             var contents = FileOperations.Load(filePath, optional);
-            return builder.AddProperties(contents);
+            return builder.AddProperties(contents, root);
         }
 
         /// <summary>
