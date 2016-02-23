@@ -3,6 +3,7 @@
 // </copyright>
 
 using System.Collections.Generic;
+using FlexibleConfiguration.Abstractions;
 
 namespace FlexibleConfiguration.Providers
 {
@@ -47,7 +48,7 @@ namespace FlexibleConfiguration.Providers
                 return name;
             }
 
-            return $"{this.root}.{name}";
+            return ConfigurationPath.Combine(this.root, name);
         }
     }
 }
