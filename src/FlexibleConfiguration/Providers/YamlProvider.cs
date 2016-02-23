@@ -1,16 +1,17 @@
-﻿// <copyright file="YamlProvider.cs" company="Nate Barbettini">
-// Copyright (c) Nate Barbettini. All rights reserved.
-// </copyright>
+﻿// Copyright (c) Nate Barbettini.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using FlexibleConfiguration.Abstractions;
+using FlexibleConfiguration.Internal;
 using YamlDotNet.Serialization;
 
 namespace FlexibleConfiguration.Providers
 {
-    public sealed class YamlProvider : AbstractConfigurationProvider
+    public sealed class YamlProvider : ConfigurationProvider
     {
         private readonly string yaml;
         private readonly string root;
@@ -21,11 +22,11 @@ namespace FlexibleConfiguration.Providers
             this.root = root;
         }
 
-        protected override IEnumerable<KeyValuePair<string, string>> GetItems()
+        public override void Load()
         {
             if (string.IsNullOrEmpty(this.yaml))
             {
-                return Enumerable.Empty<KeyValuePair<string, string>>();
+                return;
             }
 
             var deserializer = new Deserializer();
@@ -48,7 +49,25 @@ namespace FlexibleConfiguration.Providers
                 }
 
                 var enumerator = new YamlEnumerator(deserialized, this.root);
-                return enumerator.GetItems();
+                var data = new SortedDictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+                foreach (var item in enumerator.GetItems())
+                {
+                    var key = item.Key;
+
+                    if (!string.IsNullOrEmpty(this.root))
+                    {
+                        key = ConfigurationPath.Combine(this.root, key);
+                    }
+
+                    if (data.ContainsKey(key))
+                    {
+                        throw new FormatException(string.Format($"The key '{key}' is duplicated."));
+                    }
+                    data[key] = item.Value;
+                }
+
+                Data = data;
             }
         }
     }

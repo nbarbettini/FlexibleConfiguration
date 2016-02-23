@@ -1,0 +1,71 @@
+﻿// Copyright (c) Nate Barbettini.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using FlexibleConfiguration.Abstractions;
+
+namespace FlexibleConfiguration.Providers
+{
+    public class PropertiesConfigurationFileParser
+    {
+        private readonly string root;
+
+        public PropertiesConfigurationFileParser(string root)
+        {
+            this.root = root;
+        }
+
+        public IEnumerable<KeyValuePair<string, string>> Parse(Stream stream)
+        {
+            using (var reader = new StreamReader(stream))
+            {
+                while (reader.Peek() != -1)
+                {
+                    var rawLine = reader.ReadLine();
+
+                    // Ignore blank lines
+                    if (string.IsNullOrWhiteSpace(rawLine))
+                    {
+                        continue;
+                    }
+
+                    var line = rawLine.Trim();
+
+                    // Ignore comments
+                    if (line[0] == '!' || line[0] == '#')
+                    {
+                        continue;
+                    }
+
+                    var key = string.Empty;
+                    var value = string.Empty;
+
+                    int separator = line.IndexOf('=');
+                    if (separator != -1)
+                    {
+                        key = line.Substring(0, separator).Trim();
+                        value = line.Substring(separator + 1).Trim();
+                    }
+
+                    if (key.Contains(ConfigurationPath.KeyDelimiter))
+                    {
+                        throw new FormatException(string.Format("Unrecognized line format: {0}", rawLine));
+                    }
+
+                    key = key.Replace(".", ConfigurationPath.KeyDelimiter);
+
+                    if (!string.IsNullOrEmpty(this.root))
+                    {
+                        key = ConfigurationPath.Combine(this.root, key);
+                    }
+
+                    yield return new KeyValuePair<string, string>(key, value);
+                }
+            }
+        }
+    }
+}

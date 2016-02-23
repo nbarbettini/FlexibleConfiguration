@@ -10,15 +10,11 @@
       "dependencies": {
         "Microsoft.CSharp": "4.0.1-beta-23516",
         "System.Collections": "4.0.11-beta-23516",
+        "System.ComponentModel.TypeConverter": "4.0.1-beta-23516",
+        "System.IO": "4.0.11-beta-23516",
         "System.IO.FileSystem": "4.0.1-beta-23516",
         "System.Linq": "4.0.1-beta-23516"
       }
-    },
-    "net35": {
-      "compilationOptions": { "define": [ "NET35" ] }
-    },
-    "net40": {
-      "compilationOptions": { "define": [ "NET40" ] }
     },
     "net45": {
       "compilationOptions": { "define": [ "NET45" ] }
@@ -27,6 +23,8 @@
       "dependencies": {
         "Microsoft.CSharp": "4.0.1-beta-23516",
         "System.Collections": "4.0.11-beta-23516",
+        "System.ComponentModel.TypeConverter": "4.0.1-beta-23516",
+        "System.IO": "4.0.11-beta-23516",
         "System.IO.FileSystem": "4.0.1-beta-23516",
         "System.Linq": "4.0.1-beta-23516",
         "System.Reflection": "4.1.0-beta-23516"

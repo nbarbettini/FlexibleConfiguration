@@ -1,68 +1,48 @@
-﻿// <copyright file="EnvironmentVariablesProvider.cs" company="Nate Barbettini">
-// Copyright (c) Nate Barbettini. All rights reserved.
-// </copyright>
+﻿// Copyright (c) Nate Barbettini.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using FlexibleConfiguration.Abstractions;
 using FlexibleConfiguration.Internal;
 
 namespace FlexibleConfiguration.Providers
 {
-    public sealed class EnvironmentVariablesProvider : AbstractConfigurationProvider
+    public class EnvironmentVariablesProvider : ConfigurationProvider
     {
-        private readonly IEnvironmentVariables environment;
+        private readonly string mustStartWith;
+        private readonly string separator;
+        private readonly string root;
 
-        private readonly IEnumerable<string> fullyQualifiedPathsToLookFor;
-        private readonly string prefix;
-
-        public EnvironmentVariablesProvider(IEnvironmentVariables environment, IEnumerable<string> fullyQualifiedPathsToLookFor, string prefix)
+        public EnvironmentVariablesProvider(string mustStartWith, string separator, string root)
         {
-            this.environment = environment;
-            this.fullyQualifiedPathsToLookFor = fullyQualifiedPathsToLookFor;
-            this.prefix = prefix;
+            this.mustStartWith = mustStartWith;
+            this.separator = separator;
+            this.root = root;
         }
 
-        protected override IEnumerable<KeyValuePair<string, string>> GetItems()
+        public override void Load()
         {
-            var keysToLookFor = this.fullyQualifiedPathsToLookFor
-                .Select(x =>
-                {
-                    var key = x.Replace('.', '_');
+            var data = new SortedDictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            var enumerator = new EnvironmentVariablesEnumerator(mustStartWith, separator);
 
-                    if (!string.IsNullOrEmpty(this.prefix))
-                    {
-                        key = $"{this.prefix}_{key}";
-                    }
-
-                    return key;
-                })
-                .ToList();
-
-            foreach (DictionaryEntry variable in this.environment.GetEnvironmentVariables())
+            foreach (var item in enumerator.GetItems(Environment.GetEnvironmentVariables()))
             {
-                var variableName = variable.Key.ToString();
+                var key = item.Key;
 
-                if (keysToLookFor.Contains(variableName, StringComparer.OrdinalIgnoreCase))
+                if (!string.IsNullOrEmpty(this.root))
                 {
-                    yield return new KeyValuePair<string, string>(
-                        this.ConvertToKey(variableName), variable.Value?.ToString());
+                    key = ConfigurationPath.Combine(this.root, key);
                 }
-            }
-        }
 
-        private string ConvertToKey(string environmentVariableName)
-        {
-            if (!string.IsNullOrEmpty(this.prefix)
-                && environmentVariableName.ToLower().IndexOf(this.prefix.ToLower()) == 0)
-            {
-                environmentVariableName = environmentVariableName.Substring(this.prefix.Length + 1);
+                if (data.ContainsKey(key))
+                {
+                    throw new FormatException(string.Format($"The key '{key}' is duplicated."));
+                }
+                data[key] = item.Value;
             }
 
-            return environmentVariableName
-                .TrimStart('_')
-                .Replace('_', '.');
+            Data = data;
         }
     }
 }
