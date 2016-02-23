@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>FlexibleConfiguration</id>
-        <version>0.1.0-beta3</version>
+        <version>0.2.0-beta1</version>
         <authors>Nate Barbettini</authors>
         <licenseUrl>https://github.com/nbarbettini/FlexibleConfiguration/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/nbarbettini/FlexibleConfiguration</projectUrl>
