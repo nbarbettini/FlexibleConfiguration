@@ -51,7 +51,7 @@ namespace FlexibleConfiguration.Tests.EndToEnd
                 () => configurationBuilder.Verify(
                     ctx =>
                     {
-                        var fooValue = ctx.GetString("foo");
+                        var fooValue = ctx.Get("foo");
                         return fooValue == "bar";
                     },
                 "Failed validation"));
@@ -68,7 +68,7 @@ namespace FlexibleConfiguration.Tests.EndToEnd
                 () => configurationBuilder.Verify(
                     ctx =>
                 {
-                    var fooValue = ctx.GetString("foo");
+                    var fooValue = ctx.Get("foo");
                     return fooValue == "bar";
                 },
                 "Failed validation"));

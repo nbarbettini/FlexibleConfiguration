@@ -32,7 +32,7 @@ namespace FlexibleConfiguration
         /// <param name="fullyQualifiedPath">The fully-qualified path, like <c>myValue</c> or <c>foo.bar.myValue</c>.</param>
         /// <param name="value">The configuration value to store at <paramref name="fullyQualifiedPath"/>.</param>
         public void Add(string fullyQualifiedPath, object value)
-            => this.Add(new KeyValuePair<string, object>[] { new KeyValuePair<string, object>(fullyQualifiedPath, value) });
+            => this.Add(new KeyValuePair<string, string>[] { new KeyValuePair<string, string>(fullyQualifiedPath, value?.ToString()) });
 
         /// <summary>
         /// Adds the given configuration values to the current configuration.
@@ -40,7 +40,7 @@ namespace FlexibleConfiguration
         /// <param name="fullyQualifiedItems">
         /// Key/value pairs whose key is a fully-qualified path (like <c>myValue</c> or <c>foo.bar.myValue</c>) and whose value is the configuration value.
         /// </param>
-        public void Add(IEnumerable<KeyValuePair<string, object>> fullyQualifiedItems)
+        public void Add(IEnumerable<KeyValuePair<string, string>> fullyQualifiedItems)
         {
             var provider = new ExplicitProvider(fullyQualifiedItems);
             provider.ApplyConfiguration(this.context);
@@ -202,7 +202,7 @@ namespace FlexibleConfiguration
         /// </summary>
         /// <param name="fullyQualifiedPath">The fully-qualified path, like <c>myValue</c> or <c>foo.bar.myValue</c>.</param>
         /// <returns>The value stored at <paramref name="fullyQualifiedPath"/>, or <see langword="null"/>.</returns>
-        public object Get(string fullyQualifiedPath)
+        public string Get(string fullyQualifiedPath)
             => this.context.Get(fullyQualifiedPath);
 
         /// <summary>

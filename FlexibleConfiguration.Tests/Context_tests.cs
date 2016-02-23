@@ -21,7 +21,7 @@ namespace FlexibleConfiguration.Tests
 
             context.Put(fullyQualifiedPath, value);
 
-            context.Get(fullyQualifiedPath).ShouldBe(value);
+            context.Get(fullyQualifiedPath).ShouldBe(value?.ToString());
         }
 
         [Fact]

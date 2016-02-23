@@ -106,10 +106,10 @@ more.blarg = bar
         [Fact]
         public void Adding_from_list()
         {
-            var defaultConfiguration = new Dictionary<string, object>()
+            var defaultConfiguration = new Dictionary<string, string>()
             {
                 ["stringprop"] = "awesome",
-                ["INTPROP"] = 456,
+                ["INTPROP"] = "456",
                 ["more.blah"] = "sweet",
                 ["MORE.Blarg"] = "rad!"
             };
@@ -128,7 +128,7 @@ more.blarg = bar
         [Fact]
         public void Newer_values_overwrite_older_values()
         {
-            var defaultConfiguration = new Dictionary<string, object>()
+            var defaultConfiguration = new Dictionary<string, string>()
             {
                 ["stringprop"] = "awesome",
                 ["MORE.Blah"] = "sweet",

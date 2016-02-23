@@ -54,7 +54,7 @@ namespace FlexibleConfiguration.Tests
             provider.ApplyConfiguration(context);
 
             context.Get("foo").ShouldBe("bar");
-            context.Get("bar").ShouldBe(123);
+            context.Get("bar").ShouldBe("123");
             context.Get("ignored").ShouldBeNull();
         }
 
@@ -77,7 +77,7 @@ namespace FlexibleConfiguration.Tests
             provider.ApplyConfiguration(context);
 
             context.Get("foo").ShouldBe("bar");
-            context.Get("bar").ShouldBe(123);
+            context.Get("bar").ShouldBe("123");
         }
 
         [Fact]
@@ -99,7 +99,7 @@ namespace FlexibleConfiguration.Tests
             provider.ApplyConfiguration(context);
 
             context.Get("config.item.one").ShouldBe("bar");
-            context.Get("config.item.two").ShouldBe(123);
+            context.Get("config.item.two").ShouldBe("123");
         }
 
         [Fact]
@@ -123,7 +123,7 @@ namespace FlexibleConfiguration.Tests
             provider.ApplyConfiguration(context);
 
             context.Get("foo").ShouldBe("qux");
-            context.Get("bar").ShouldBe(456);
+            context.Get("bar").ShouldBe("456");
         }
 
         private static IEnvironmentVariables GetMockEnvironment(IDictionary fakeVariables = null)

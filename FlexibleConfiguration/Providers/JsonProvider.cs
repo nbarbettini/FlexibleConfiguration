@@ -21,11 +21,11 @@ namespace FlexibleConfiguration.Providers
             this.root = root;
         }
 
-        protected override IEnumerable<KeyValuePair<string, object>> GetItems()
+        protected override IEnumerable<KeyValuePair<string, string>> GetItems()
         {
             if (string.IsNullOrEmpty(this.json))
             {
-                return Enumerable.Empty<KeyValuePair<string, object>>();
+                return Enumerable.Empty<KeyValuePair<string, string>>();
             }
 
             var deserializer = new Deserializer();

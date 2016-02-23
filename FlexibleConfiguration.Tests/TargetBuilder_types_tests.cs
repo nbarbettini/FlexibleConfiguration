@@ -4,11 +4,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FlexibleConfiguration.Internal;
-using NSubstitute;
 using Shouldly;
 using Xunit;
 
@@ -22,7 +18,7 @@ namespace FlexibleConfiguration.Tests
             yield return new object[] { "123" };
             yield return new object[] { "-123" };
             yield return new object[] { short.MaxValue };
-            yield return new object[] { short.MinValue};
+            yield return new object[] { short.MinValue };
         }
 
         public static IEnumerable<object[]> GetIntCases()
@@ -48,8 +44,6 @@ namespace FlexibleConfiguration.Tests
             yield return new object[] { 12345.678 };
             yield return new object[] { "12345.678" };
             yield return new object[] { "-12345.678" };
-            yield return new object[] { float.MaxValue };
-            yield return new object[] { float.MinValue };
         }
 
         public static IEnumerable<object[]> GetDoubleCases()
@@ -57,16 +51,14 @@ namespace FlexibleConfiguration.Tests
             yield return new object[] { 123456789.12345 };
             yield return new object[] { "123456789.12345" };
             yield return new object[] { "-123456789.12345" };
-            yield return new object[] { double.MaxValue };
-            yield return new object[] { double.MinValue };
         }
 
         [Theory]
         [MemberData(nameof(GetShortCases))]
         public void Converts_values_to_short(object value)
         {
-            var fakeContext = Substitute.For<IConfigurationContext>();
-            fakeContext.Get("Short").Returns(value);
+            var fakeContext = new DefaultConfigurationContext();
+            fakeContext.Put("Short", value);
 
             var builder = new TargetBuilder(typeof(TypesConfig), fakeContext);
             var result = (TypesConfig)builder.Build();
@@ -80,8 +72,8 @@ namespace FlexibleConfiguration.Tests
         [MemberData(nameof(GetIntCases))]
         public void Converts_values_to_int(object value)
         {
-            var fakeContext = Substitute.For<IConfigurationContext>();
-            fakeContext.Get("Int").Returns(value);
+            var fakeContext = new DefaultConfigurationContext();
+            fakeContext.Put("Int", value);
 
             var builder = new TargetBuilder(typeof(TypesConfig), fakeContext);
             var result = (TypesConfig)builder.Build();
@@ -96,8 +88,8 @@ namespace FlexibleConfiguration.Tests
         [MemberData(nameof(GetLongCases))]
         public void Converts_values_to_long(object value)
         {
-            var fakeContext = Substitute.For<IConfigurationContext>();
-            fakeContext.Get("Long").Returns(value);
+            var fakeContext = new DefaultConfigurationContext();
+            fakeContext.Put("Long", value);
 
             var builder = new TargetBuilder(typeof(TypesConfig), fakeContext);
             var result = (TypesConfig)builder.Build();
@@ -113,8 +105,8 @@ namespace FlexibleConfiguration.Tests
         [MemberData(nameof(GetFloatCases))]
         public void Converts_values_to_float(object value)
         {
-            var fakeContext = Substitute.For<IConfigurationContext>();
-            fakeContext.Get("Float").Returns(value);
+            var fakeContext = new DefaultConfigurationContext();
+            fakeContext.Put("Float", value);
 
             var builder = new TargetBuilder(typeof(TypesConfig), fakeContext);
             var result = (TypesConfig)builder.Build();
@@ -131,8 +123,8 @@ namespace FlexibleConfiguration.Tests
         [MemberData(nameof(GetDoubleCases))]
         public void Converts_values_to_double(object value)
         {
-            var fakeContext = Substitute.For<IConfigurationContext>();
-            fakeContext.Get("Double").Returns(value);
+            var fakeContext = new DefaultConfigurationContext();
+            fakeContext.Put("Double", value);
 
             var builder = new TargetBuilder(typeof(TypesConfig), fakeContext);
             var result = (TypesConfig)builder.Build();
@@ -146,8 +138,8 @@ namespace FlexibleConfiguration.Tests
         [InlineData(null)]
         public void Converts_values_to_nullable_short(object value)
         {
-            var fakeContext = Substitute.For<IConfigurationContext>();
-            fakeContext.Get("NullableShort").Returns(value);
+            var fakeContext = new DefaultConfigurationContext();
+            fakeContext.Put("NullableShort", value);
 
             var builder = new TargetBuilder(typeof(TypesConfig), fakeContext);
             var result = (TypesConfig)builder.Build();
@@ -164,8 +156,8 @@ namespace FlexibleConfiguration.Tests
         [InlineData(null)]
         public void Converts_values_to_nullable_int(object value)
         {
-            var fakeContext = Substitute.For<IConfigurationContext>();
-            fakeContext.Get("NullableInt").Returns(value);
+            var fakeContext = new DefaultConfigurationContext();
+            fakeContext.Put("NullableInt", value);
 
             var builder = new TargetBuilder(typeof(TypesConfig), fakeContext);
             var result = (TypesConfig)builder.Build();
@@ -183,8 +175,8 @@ namespace FlexibleConfiguration.Tests
         [InlineData(null)]
         public void Converts_values_to_nullable_long(object value)
         {
-            var fakeContext = Substitute.For<IConfigurationContext>();
-            fakeContext.Get("NullableLong").Returns(value);
+            var fakeContext = new DefaultConfigurationContext();
+            fakeContext.Put("NullableLong", value);
 
             var builder = new TargetBuilder(typeof(TypesConfig), fakeContext);
             var result = (TypesConfig)builder.Build();
@@ -203,8 +195,8 @@ namespace FlexibleConfiguration.Tests
         [InlineData(null)]
         public void Converts_values_to_nullable_float(object value)
         {
-            var fakeContext = Substitute.For<IConfigurationContext>();
-            fakeContext.Get("NullableFloat").Returns(value);
+            var fakeContext = new DefaultConfigurationContext();
+            fakeContext.Put("NullableFloat", value);
 
             var builder = new TargetBuilder(typeof(TypesConfig), fakeContext);
             var result = (TypesConfig)builder.Build();
@@ -224,8 +216,8 @@ namespace FlexibleConfiguration.Tests
         [InlineData(null)]
         public void Converts_values_to_nullable_double(object value)
         {
-            var fakeContext = Substitute.For<IConfigurationContext>();
-            fakeContext.Get("NullableDouble").Returns(value);
+            var fakeContext = new DefaultConfigurationContext();
+            fakeContext.Put("NullableDouble", value);
 
             var builder = new TargetBuilder(typeof(TypesConfig), fakeContext);
             var result = (TypesConfig)builder.Build();

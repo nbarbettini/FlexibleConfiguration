@@ -45,7 +45,7 @@ namespace FlexibleConfiguration.Tests
         {
             var fakeContext = Substitute.For<IConfigurationContext>();
             fakeContext.Get("StringProp").Returns("Qux");
-            fakeContext.Get("IntProp").Returns(123);
+            fakeContext.Get("IntProp").Returns("123");
             fakeContext.Get("More.Blah").Returns("Foo1");
             fakeContext.Get("More.Blarg").Returns("Foo2");
 
@@ -74,7 +74,7 @@ namespace FlexibleConfiguration.Tests
         {
             var fakeContext = Substitute.For<IConfigurationContext>();
             fakeContext.Get("StringProp").Returns("Qux");
-            fakeContext.Get("IntProp").Returns(123);
+            fakeContext.Get("IntProp").Returns("123");
             fakeContext.Get("More.Blah").Returns("Foo1");
             fakeContext.Get("More.Blarg").Returns("Foo2");
 

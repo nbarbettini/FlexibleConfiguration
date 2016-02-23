@@ -60,7 +60,7 @@ namespace FlexibleConfiguration.Internal
             currentLevel[path.Last()] = value;
         }
 
-        public object Get(string fullyQualifiedPath)
+        public string Get(string fullyQualifiedPath)
         {
             if (string.IsNullOrEmpty(fullyQualifiedPath))
             {
@@ -102,7 +102,7 @@ namespace FlexibleConfiguration.Internal
 
             object value = null;
             currentLevel.TryGetValue(path.Last(), out value);
-            return value;
+            return value?.ToString();
         }
 
         public void Remove(string fullyQualifiedPath)

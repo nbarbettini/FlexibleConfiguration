@@ -26,7 +26,7 @@ namespace FlexibleConfiguration.Providers
             this.prefix = prefix;
         }
 
-        protected override IEnumerable<KeyValuePair<string, object>> GetItems()
+        protected override IEnumerable<KeyValuePair<string, string>> GetItems()
         {
             var keysToLookFor = this.fullyQualifiedPathsToLookFor
                 .Select(x =>
@@ -48,8 +48,8 @@ namespace FlexibleConfiguration.Providers
 
                 if (keysToLookFor.Contains(variableName, StringComparer.OrdinalIgnoreCase))
                 {
-                    yield return new KeyValuePair<string, object>(
-                        this.ConvertToKey(variableName), variable.Value);
+                    yield return new KeyValuePair<string, string>(
+                        this.ConvertToKey(variableName), variable.Value?.ToString());
                 }
             }
         }

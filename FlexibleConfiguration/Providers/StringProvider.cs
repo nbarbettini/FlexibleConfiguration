@@ -16,11 +16,11 @@ namespace FlexibleConfiguration.Providers
             this.config = config;
         }
 
-        protected override IEnumerable<KeyValuePair<string, object>> GetItems()
+        protected override IEnumerable<KeyValuePair<string, string>> GetItems()
         {
             if (string.IsNullOrEmpty(this.config))
             {
-                yield return default(KeyValuePair<string, object>);
+                yield return default(KeyValuePair<string, string>);
             }
 
             var lines = this.config.Split(
@@ -35,7 +35,7 @@ namespace FlexibleConfiguration.Providers
                     throw new ParseException($"Cannot parse configuration line: '{line}'");
                 }
 
-                yield return new KeyValuePair<string, object>(tokens[0].Trim(), tokens[1].Trim());
+                yield return new KeyValuePair<string, string>(tokens[0].Trim(), tokens[1].Trim());
             }
         }
     }

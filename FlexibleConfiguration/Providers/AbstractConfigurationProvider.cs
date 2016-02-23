@@ -12,13 +12,13 @@ namespace FlexibleConfiguration.Providers
         {
             foreach (var item in this.GetItems())
             {
-                if (!item.Equals(default(KeyValuePair<string, object>)))
+                if (!item.Equals(default(KeyValuePair<string, string>)))
                 {
                     context.Put(item.Key, item.Value);
                 }
             }
         }
 
-        protected abstract IEnumerable<KeyValuePair<string, object>> GetItems();
+        protected abstract IEnumerable<KeyValuePair<string, string>> GetItems();
     }
 }

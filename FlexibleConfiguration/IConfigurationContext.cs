@@ -15,14 +15,7 @@ namespace FlexibleConfiguration
         /// <remarks>If the path cannot be fully traversed, <see langword="null"/> is returned.</remarks>
         /// <param name="fullyQualifiedPath">The fully-qualified path of a configuration value.</param>
         /// <returns>The configuration value, or <see langword="null"/> if no value exists.</returns>
-        object Get(string fullyQualifiedPath);
-
-        /// <summary>
-        /// Gets the string value stored at <paramref name="fullyQualifiedPath"/>.
-        /// </summary>
-        /// <param name="fullyQualifiedPath">The fully-qualified path of a configuration value.</param>
-        /// <returns>The string value, or <c>null</c> if no value exists.</returns>
-        string GetString(string fullyQualifiedPath);
+        string Get(string fullyQualifiedPath);
 
         /// <summary>
         /// Stores a configuration value.

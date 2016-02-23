@@ -17,9 +17,9 @@ namespace FlexibleConfiguration.Providers
             this.root = root;
         }
 
-        public IEnumerable<KeyValuePair<string, object>> GetItems()
+        public IEnumerable<KeyValuePair<string, string>> GetItems()
         {
-            var result = new List<KeyValuePair<string, object>>();
+            var result = new List<KeyValuePair<string, string>>();
 
             foreach (var item in this.map)
             {
@@ -32,9 +32,9 @@ namespace FlexibleConfiguration.Providers
                     continue;
                 }
 
-                result.Add(new KeyValuePair<string, object>(
+                result.Add(new KeyValuePair<string, string>(
                     this.GetFullyQualifiedName(item.Key.ToString()),
-                    item.Value));
+                    item.Value?.ToString()));
             }
 
             return result;
