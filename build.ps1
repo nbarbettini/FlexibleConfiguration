@@ -8,8 +8,8 @@ Foreach-Object {
 	nuget pack $_.FullName
 }
 
-Write-Host "Pushing packages to MyGet..."
+Write-Host "Pushing packages to local folder..."
 Get-ChildItem $currentDir -Filter *.nupkg | `
 Foreach-Object {
-	nuget push $_.FullName -ApiKey $env:flexconfig_myget_api_key -Source "https://www.myget.org/F/flexibleconfiguration/api/v2/package"
+	nuget add $_.FullName -Source $env:local_nuget_path
 }
