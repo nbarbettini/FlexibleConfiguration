@@ -185,5 +185,26 @@ namespace FlexibleConfiguration
             configurationBuilder.Add(new MemoryConfigurationProvider(initialData));
             return configurationBuilder;
         }
+
+        /// <summary>
+        /// Adds the configuration in <paramref name="object"/> to <paramref name="configurationBuilder"/>.
+        /// </summary>
+        /// <param name="configurationBuilder">The <see cref="IConfigurationBuilder"/> to add to.</param>
+        /// <param name="object">The object to examine.</param>
+        /// <param name="root">A root element to prepend to any discovered key.</param>
+        /// <returns>The <see cref="IConfigurationBuilder"/>.</returns>
+        public static ConfigurationBuilder AddObject(
+            this ConfigurationBuilder configurationBuilder,
+            object @object,
+            string root = null)
+        {
+            if (configurationBuilder == null)
+            {
+                throw new ArgumentNullException(nameof(configurationBuilder));
+            }
+
+            configurationBuilder.Add(new ObjectReflectionConfigurationProvider(@object, root));
+            return configurationBuilder;
+        }
     }
 }
