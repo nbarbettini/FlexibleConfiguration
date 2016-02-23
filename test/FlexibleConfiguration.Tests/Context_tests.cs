@@ -45,5 +45,17 @@ namespace FlexibleConfiguration.Tests
 
             context.Get("foo.bar.baz").Should().Be(null);
         }
+
+        [Fact]
+        public void Using_custom_separator()
+        {
+            var context = new DefaultConfigurationContext(":");
+
+            context.Put("foo:bar", "baz");
+            context.Put("foo:qux", "123");
+
+            context.Get("foo:bar").Should().Be("baz");
+            context.Get("foo:qux").Should().Be("123");
+        }
     }
 }

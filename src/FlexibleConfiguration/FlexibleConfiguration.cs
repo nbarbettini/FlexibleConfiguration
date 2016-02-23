@@ -205,6 +205,9 @@ namespace FlexibleConfiguration
         public string Get(string fullyQualifiedPath)
             => this.context.Get(fullyQualifiedPath);
 
+        public string this[string key]
+            => this.Get(key);
+
         /// <summary>
         /// Constructs the target configuration object based on the current builder state.
         /// </summary>

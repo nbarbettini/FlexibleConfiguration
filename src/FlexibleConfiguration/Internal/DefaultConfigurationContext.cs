@@ -12,10 +12,27 @@ namespace FlexibleConfiguration.Internal
     public sealed class DefaultConfigurationContext : IConfigurationContext
     {
         private readonly Map configMap;
+        private readonly string separator;
 
         public DefaultConfigurationContext()
+            : this(new Dictionary<string, object>())
         {
-            this.configMap = new Dictionary<string, object>();
+        }
+
+        public DefaultConfigurationContext(string separator)
+            : this(new Dictionary<string, object>(), ".")
+        {
+        }
+
+        public DefaultConfigurationContext(Map section)
+            : this(section, ".")
+        {
+        }
+
+        public DefaultConfigurationContext(Map section, string separator)
+        {
+            this.configMap = section;
+            this.separator = separator;
         }
 
         public void Put(string fullyQualifiedPath, object value)
@@ -27,7 +44,7 @@ namespace FlexibleConfiguration.Internal
 
             var path = fullyQualifiedPath
                 .ToLower()
-                .Split('.');
+                .Split(new string[] { this.separator }, StringSplitOptions.None);
             Map currentLevel = this.configMap;
 
             if (path.Length > 1)
@@ -69,7 +86,7 @@ namespace FlexibleConfiguration.Internal
 
             var path = fullyQualifiedPath
                 .ToLower()
-                .Split('.');
+                .Split(new string[] { this.separator }, StringSplitOptions.None);
             Map currentLevel = this.configMap;
 
             if (path.Length > 1)
