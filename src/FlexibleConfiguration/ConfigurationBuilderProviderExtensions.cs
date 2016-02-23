@@ -65,10 +65,10 @@ namespace FlexibleConfiguration
         public static ConfigurationBuilder AddJsonFile(
             this ConfigurationBuilder builder,
             string filePath,
-            bool required = true,
+            bool optional = false,
             string root = null)
         {
-            var json = FileOperations.Load(filePath, required);
+            var json = FileOperations.Load(filePath, optional);
             return builder.AddJson(json, root);
         }
 
@@ -112,10 +112,10 @@ namespace FlexibleConfiguration
         public static ConfigurationBuilder AddYamlFile(
             this ConfigurationBuilder builder,
             string filePath,
-            bool required = true,
+            bool optional = false,
             string root = null)
         {
-            var yaml = FileOperations.Load(filePath, required);
+            var yaml = FileOperations.Load(filePath, optional);
             return builder.AddYaml(yaml, root);
         }
 
@@ -160,10 +160,10 @@ namespace FlexibleConfiguration
         public static ConfigurationBuilder AddPropertiesFile(
             this ConfigurationBuilder builder,
             string filePath,
-            bool required = true,
+            bool optional = false,
             string root = null)
         {
-            var contents = FileOperations.Load(filePath, required);
+            var contents = FileOperations.Load(filePath, optional);
             return builder.AddProperties(contents);
         }
 
