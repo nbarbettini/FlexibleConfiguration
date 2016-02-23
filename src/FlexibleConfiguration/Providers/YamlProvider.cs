@@ -10,7 +10,7 @@ using YamlDotNet.Serialization;
 
 namespace FlexibleConfiguration.Providers
 {
-    internal sealed class YamlProvider : AbstractConfigurationProvider
+    public sealed class YamlProvider : AbstractConfigurationProvider
     {
         private readonly string yaml;
         private readonly string root;

@@ -3,7 +3,7 @@
 // </copyright>
 
 using FlexibleConfiguration.Internal;
-using Shouldly;
+using FluentAssertions;
 using Xunit;
 
 namespace FlexibleConfiguration.Tests
@@ -21,7 +21,7 @@ namespace FlexibleConfiguration.Tests
 
             context.Put(fullyQualifiedPath, value);
 
-            context.Get(fullyQualifiedPath).ShouldBe(value?.ToString());
+            context.Get(fullyQualifiedPath).Should().Be(value?.ToString());
         }
 
         [Fact]
@@ -31,8 +31,8 @@ namespace FlexibleConfiguration.Tests
 
             context.Put("foo.bar", null);
 
-            context.Get("foo.bar").ShouldBeNull();
-            context.Get("foo.baz").ShouldBeNull();
+            context.Get("foo.bar").Should().BeNull();
+            context.Get("foo.baz").Should().BeNull();
         }
 
         [Fact]
@@ -43,7 +43,7 @@ namespace FlexibleConfiguration.Tests
             context.Put("foo.bar.baz", 123);
             context.Remove("foo.bar.baz");
 
-            context.Get("foo.bar.baz").ShouldBe(null);
+            context.Get("foo.bar.baz").Should().Be(null);
         }
     }
 }

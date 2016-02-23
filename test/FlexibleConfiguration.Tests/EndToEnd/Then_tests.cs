@@ -2,7 +2,7 @@
 // Copyright (c) Nate Barbettini. All rights reserved.
 // </copyright>
 
-using Shouldly;
+using FluentAssertions;
 using Xunit;
 
 namespace FlexibleConfiguration.Tests.EndToEnd
@@ -25,8 +25,8 @@ namespace FlexibleConfiguration.Tests.EndToEnd
 
             var config = configurationBuilder.Build();
 
-            config.More.Blah.ShouldBe("foobar");
-            config.IntProp.ShouldBe(123);
+            config.More.Blah.Should().Be("foobar");
+            config.IntProp.Should().Be(123);
         }
 
         [Fact]
@@ -45,7 +45,7 @@ namespace FlexibleConfiguration.Tests.EndToEnd
 
             var config = configurationBuilder.Build();
 
-            config.More.Blah.ShouldBeNull();
+            config.More.Blah.Should().BeNull();
         }
     }
 }

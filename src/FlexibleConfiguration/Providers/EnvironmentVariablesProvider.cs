@@ -10,18 +10,16 @@ using FlexibleConfiguration.Internal;
 
 namespace FlexibleConfiguration.Providers
 {
-    internal sealed class EnvironmentVariablesProvider : AbstractConfigurationProvider
+    public sealed class EnvironmentVariablesProvider : AbstractConfigurationProvider
     {
         private readonly IEnvironmentVariables environment;
-        private readonly EnvironmentVariableTarget target;
 
         private readonly IEnumerable<string> fullyQualifiedPathsToLookFor;
         private readonly string prefix;
 
-        public EnvironmentVariablesProvider(IEnvironmentVariables environment, EnvironmentVariableTarget target, IEnumerable<string> fullyQualifiedPathsToLookFor, string prefix)
+        public EnvironmentVariablesProvider(IEnvironmentVariables environment, IEnumerable<string> fullyQualifiedPathsToLookFor, string prefix)
         {
             this.environment = environment;
-            this.target = target;
             this.fullyQualifiedPathsToLookFor = fullyQualifiedPathsToLookFor;
             this.prefix = prefix;
         }
@@ -42,7 +40,7 @@ namespace FlexibleConfiguration.Providers
                 })
                 .ToList();
 
-            foreach (DictionaryEntry variable in this.environment.GetEnvironmentVariables(this.target))
+            foreach (DictionaryEntry variable in this.environment.GetEnvironmentVariables())
             {
                 var variableName = variable.Key.ToString();
 

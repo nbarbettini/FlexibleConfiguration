@@ -2,8 +2,9 @@
 // Copyright (c) Nate Barbettini. All rights reserved.
 // </copyright>
 
+using System;
 using System.IO;
-using Shouldly;
+using FluentAssertions;
 using Xunit;
 
 namespace FlexibleConfiguration.Tests.EndToEnd
@@ -22,8 +23,8 @@ intprop: 123
             configurationBuilder.AddYaml(yaml);
             var config = configurationBuilder.Build();
 
-            config.StringProp.ShouldBe("foobar");
-            config.IntProp.ShouldBe(123);
+            config.StringProp.Should().Be("foobar");
+            config.IntProp.Should().Be(123);
         }
 
         [Fact]
@@ -38,8 +39,8 @@ Intprop: 123
             configurationBuilder.AddYaml(yaml);
             var config = configurationBuilder.Build();
 
-            config.StringProp.ShouldBe("foobar");
-            config.IntProp.ShouldBe(123);
+            config.StringProp.Should().Be("foobar");
+            config.IntProp.Should().Be(123);
         }
 
         [Fact]
@@ -62,9 +63,9 @@ more:
             configurationBuilder.AddYaml(yaml);
             var config = configurationBuilder.Build();
 
-            config.StringProp.ShouldBe("foobar");
-            config.IntProp.ShouldBe(123);
-            config.More.Blarg.ShouldBe("foobar");
+            config.StringProp.Should().Be("foobar");
+            config.IntProp.Should().Be(123);
+            config.More.Blarg.Should().Be("foobar");
         }
 
         [Fact]
@@ -82,10 +83,10 @@ more:
             configurationBuilder.AddYaml(yaml);
             var config = configurationBuilder.Build();
 
-            config.StringProp.ShouldBe("yaml ain't markup");
-            config.IntProp.ShouldBe(456);
-            config.More.Blah.ShouldBe("baz");
-            config.More.Blarg.ShouldBe("qux");
+            config.StringProp.Should().Be("yaml ain't markup");
+            config.IntProp.Should().Be(456);
+            config.More.Blah.Should().Be("baz");
+            config.More.Blarg.Should().Be("qux");
         }
 
         [Fact]
@@ -100,8 +101,8 @@ blarg: qux
             configurationBuilder.AddYaml(yaml, "more");
             var config = configurationBuilder.Build();
 
-            config.More.Blah.ShouldBe("baz");
-            config.More.Blarg.ShouldBe("qux");
+            config.More.Blah.Should().Be("baz");
+            config.More.Blarg.Should().Be("qux");
         }
 
         [Fact]
@@ -109,7 +110,9 @@ blarg: qux
         {
             var configurationBuilder = new FlexibleConfiguration<TestConfig>();
 
-            Should.Throw<FileNotFoundException>(() => configurationBuilder.AddYamlFile("non_existent.yaml", required: true));
+            Action bad = () => configurationBuilder.AddYamlFile("non_existent.yaml", required: true);
+
+            bad.ShouldThrow<FileNotFoundException>();
         }
 
         [Fact]
@@ -117,7 +120,9 @@ blarg: qux
         {
             var configurationBuilder = new FlexibleConfiguration<TestConfig>();
 
-            Should.NotThrow(() => configurationBuilder.AddYamlFile("non_existent.yaml", required: false));
+            Action good = () => configurationBuilder.AddYamlFile("non_existent.yaml", required: false);
+
+            good.ShouldNotThrow();
         }
 
         [Fact]
@@ -128,7 +133,10 @@ blah baz
 blarg: qux
 ";
             var configurationBuilder = new FlexibleConfiguration<TestConfig>();
-            Should.Throw<ParseException>(() => configurationBuilder.AddYaml(yaml));
+
+            Action bad = () => configurationBuilder.AddYaml(yaml);
+
+            bad.ShouldThrow<ParseException>();
         }
     }
 }

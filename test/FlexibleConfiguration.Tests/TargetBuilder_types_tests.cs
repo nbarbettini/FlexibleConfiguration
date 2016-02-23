@@ -5,7 +5,7 @@
 using System;
 using System.Collections.Generic;
 using FlexibleConfiguration.Internal;
-using Shouldly;
+using FluentAssertions;
 using Xunit;
 
 namespace FlexibleConfiguration.Tests
@@ -64,7 +64,7 @@ namespace FlexibleConfiguration.Tests
             var result = (TypesConfig)builder.Build();
 
             short shortValue = Convert.ToInt16(value);
-            result.Short.ShouldBe(shortValue);
+            result.Short.Should().Be(shortValue);
         }
 
         [Theory]
@@ -79,7 +79,7 @@ namespace FlexibleConfiguration.Tests
             var result = (TypesConfig)builder.Build();
 
             int intValue = Convert.ToInt32(value);
-            result.Int.ShouldBe(intValue);
+            result.Int.Should().Be(intValue);
         }
 
         [Theory]
@@ -95,7 +95,7 @@ namespace FlexibleConfiguration.Tests
             var result = (TypesConfig)builder.Build();
 
             long longValue = Convert.ToInt64(value);
-            result.Long.ShouldBe(longValue);
+            result.Long.Should().Be(longValue);
         }
 
         [Theory]
@@ -112,7 +112,7 @@ namespace FlexibleConfiguration.Tests
             var result = (TypesConfig)builder.Build();
 
             float floatValue = Convert.ToSingle(value);
-            result.Float.ShouldBe(floatValue);
+            result.Float.Should().Be(floatValue);
         }
 
         [Theory]
@@ -130,7 +130,7 @@ namespace FlexibleConfiguration.Tests
             var result = (TypesConfig)builder.Build();
 
             double doubleValue = Convert.ToDouble(value);
-            result.Double.ShouldBe(doubleValue);
+            result.Double.Should().Be(doubleValue);
         }
 
         [Theory]
@@ -147,7 +147,7 @@ namespace FlexibleConfiguration.Tests
             short? shortValue = value == null
                 ? (short?)null
                 : Convert.ToInt16(value);
-            result.NullableShort.ShouldBe(shortValue);
+            result.NullableShort.Should().Be(shortValue);
         }
 
         [Theory]
@@ -165,7 +165,7 @@ namespace FlexibleConfiguration.Tests
             int? intValue = value == null
                 ? (int?)null
                 : Convert.ToInt32(value);
-            result.NullableInt.ShouldBe(intValue);
+            result.NullableInt.Should().Be(intValue);
         }
 
         [Theory]
@@ -184,7 +184,7 @@ namespace FlexibleConfiguration.Tests
             long? longValue = value == null
                 ? (long?)null
                 : Convert.ToInt64(value);
-            result.NullableLong.ShouldBe(longValue);
+            result.NullableLong.Should().Be(longValue);
         }
 
         [Theory]
@@ -204,7 +204,7 @@ namespace FlexibleConfiguration.Tests
             float? floatValue = value == null
                 ? (float?)null
                 : Convert.ToSingle(value);
-            result.NullableFloat.ShouldBe(floatValue);
+            result.NullableFloat.Should().Be(floatValue);
         }
 
         [Theory]
@@ -225,7 +225,7 @@ namespace FlexibleConfiguration.Tests
             double? doubleValue = value == null
                 ? (double?)null
                 : Convert.ToDouble(value);
-            result.NullableDouble.ShouldBe(doubleValue);
+            result.NullableDouble.Should().Be(doubleValue);
         }
     }
 }

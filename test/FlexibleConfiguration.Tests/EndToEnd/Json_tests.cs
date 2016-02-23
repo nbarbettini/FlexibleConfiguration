@@ -2,8 +2,9 @@
 // Copyright (c) Nate Barbettini. All rights reserved.
 // </copyright>
 
+using System;
 using System.IO;
-using Shouldly;
+using FluentAssertions;
 using Xunit;
 
 namespace FlexibleConfiguration.Tests.EndToEnd
@@ -24,8 +25,8 @@ namespace FlexibleConfiguration.Tests.EndToEnd
             configurationBuilder.AddJson(json);
             var config = configurationBuilder.Build();
 
-            config.StringProp.ShouldBe("foobar");
-            config.IntProp.ShouldBe(123);
+            config.StringProp.Should().Be("foobar");
+            config.IntProp.Should().Be(123);
         }
 
         [Fact]
@@ -42,8 +43,8 @@ namespace FlexibleConfiguration.Tests.EndToEnd
             configurationBuilder.AddJson(json);
             var config = configurationBuilder.Build();
 
-            config.StringProp.ShouldBe("foobar");
-            config.IntProp.ShouldBe(123);
+            config.StringProp.Should().Be("foobar");
+            config.IntProp.Should().Be(123);
         }
 
         [Fact]
@@ -72,9 +73,9 @@ namespace FlexibleConfiguration.Tests.EndToEnd
             configurationBuilder.AddJson(json);
             var config = configurationBuilder.Build();
 
-            config.StringProp.ShouldBe("foobar");
-            config.IntProp.ShouldBe(123);
-            config.More.Blarg.ShouldBe("foobar");
+            config.StringProp.Should().Be("foobar");
+            config.IntProp.Should().Be(123);
+            config.More.Blarg.Should().Be("foobar");
         }
 
         [Fact]
@@ -95,10 +96,10 @@ namespace FlexibleConfiguration.Tests.EndToEnd
             configurationBuilder.AddJson(json);
             var config = configurationBuilder.Build();
 
-            config.StringProp.ShouldBe("javascript object notation");
-            config.IntProp.ShouldBe(456);
-            config.More.Blah.ShouldBe("baz");
-            config.More.Blarg.ShouldBe("qux");
+            config.StringProp.Should().Be("javascript object notation");
+            config.IntProp.Should().Be(456);
+            config.More.Blah.Should().Be("baz");
+            config.More.Blarg.Should().Be("qux");
         }
 
         [Fact]
@@ -115,8 +116,8 @@ namespace FlexibleConfiguration.Tests.EndToEnd
             configurationBuilder.AddJson(json, "more");
             var config = configurationBuilder.Build();
 
-            config.More.Blah.ShouldBe("baz");
-            config.More.Blarg.ShouldBe("qux");
+            config.More.Blah.Should().Be("baz");
+            config.More.Blarg.Should().Be("qux");
         }
 
         [Fact]
@@ -124,7 +125,9 @@ namespace FlexibleConfiguration.Tests.EndToEnd
         {
             var configurationBuilder = new FlexibleConfiguration<TestConfig>();
 
-            Should.Throw<FileNotFoundException>(() => configurationBuilder.AddJsonFile("non_existent.json", required: true));
+            Action bad = () => configurationBuilder.AddJsonFile("non_existent.json", required: true);
+
+            bad.ShouldThrow<FileNotFoundException>();
         }
 
         [Fact]
@@ -132,7 +135,9 @@ namespace FlexibleConfiguration.Tests.EndToEnd
         {
             var configurationBuilder = new FlexibleConfiguration<TestConfig>();
 
-            Should.NotThrow(() => configurationBuilder.AddJsonFile("non_existent.json", required: false));
+            Action good = () => configurationBuilder.AddJsonFile("non_existent.json", required: false);
+
+            good.ShouldNotThrow();
         }
 
         [Fact]
@@ -146,7 +151,9 @@ namespace FlexibleConfiguration.Tests.EndToEnd
 ";
             var configurationBuilder = new FlexibleConfiguration<TestConfig>();
 
-            Should.Throw<ParseException>(() => configurationBuilder.AddJson(json));
+            Action bad = () => configurationBuilder.AddJson(json);
+
+            bad.ShouldThrow<ParseException>();
         }
     }
 }

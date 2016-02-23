@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace FlexibleConfiguration.Providers
 {
-    internal sealed class YamlEnumerator
+    public sealed class YamlEnumerator
     {
         private readonly IDictionary<object, object> map;
         private readonly string root;

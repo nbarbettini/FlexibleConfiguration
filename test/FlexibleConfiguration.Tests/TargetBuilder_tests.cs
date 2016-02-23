@@ -4,8 +4,7 @@
 
 using System;
 using FlexibleConfiguration.Internal;
-using NSubstitute;
-using Shouldly;
+using FluentAssertions;
 using Xunit;
 
 namespace FlexibleConfiguration.Tests
@@ -15,76 +14,80 @@ namespace FlexibleConfiguration.Tests
         [Fact]
         public void Throws_for_string_target()
         {
-            Should.Throw<ArgumentException>(
-                () => new TargetBuilder(typeof(string), Substitute.For<IConfigurationContext>()));
+            Action bad = () => new TargetBuilder(typeof(string), new DefaultConfigurationContext());
+
+            bad.ShouldThrow<ArgumentException>();
         }
 
         [Fact]
         public void Throws_for_primitive_target()
         {
-            Should.Throw<ArgumentException>(
-                () => new TargetBuilder(typeof(int), Substitute.For<IConfigurationContext>()));
+            Action bad = () => new TargetBuilder(typeof(int), new DefaultConfigurationContext());
+
+            bad.ShouldThrow<ArgumentException>();
         }
 
         [Fact]
         public void Constructs_flat_object()
         {
-            var fakeContext = Substitute.For<IConfigurationContext>();
-            fakeContext.Get("Blah").Returns("Working!");
-            fakeContext.Get("Blarg").Returns("Ok");
+            var fakeContext = new DefaultConfigurationContext();
+            fakeContext.Put("Blah", "Working!");
+            fakeContext.Put("Blarg", "Ok");
 
             var builder = new TargetBuilder(typeof(MoreConfig), fakeContext);
             var result = (MoreConfig)builder.Build();
 
-            result.Blah.ShouldBe("Working!");
-            result.Blarg.ShouldBe("Ok");
+            result.Blah.Should().Be("Working!");
+            result.Blarg.Should().Be("Ok");
         }
 
         [Fact]
         public void Constructs_nested_object()
         {
-            var fakeContext = Substitute.For<IConfigurationContext>();
-            fakeContext.Get("StringProp").Returns("Qux");
-            fakeContext.Get("IntProp").Returns("123");
-            fakeContext.Get("More.Blah").Returns("Foo1");
-            fakeContext.Get("More.Blarg").Returns("Foo2");
+            var fakeContext = new DefaultConfigurationContext();
+            fakeContext.Put("StringProp", "Qux");
+            fakeContext.Put("IntProp", "123");
+            fakeContext.Put("More.Blah", "Foo1");
+            fakeContext.Put("More.Blarg", "Foo2");
 
             var builder = new TargetBuilder(typeof(TestConfig), fakeContext);
             var result = (TestConfig)builder.Build();
 
-            result.StringProp.ShouldBe("Qux");
-            result.IntProp.ShouldBe(123);
-            result.More.Blah.ShouldBe("Foo1");
-            result.More.Blarg.ShouldBe("Foo2");
+            result.StringProp.Should().Be("Qux");
+            result.IntProp.Should().Be(123);
+            result.More.Blah.Should().Be("Foo1");
+            result.More.Blarg.Should().Be("Foo2");
         }
 
         [Fact]
         public void Throws_ValidationException_for_mismatched_type()
         {
-            var fakeContext = Substitute.For<IConfigurationContext>();
-            fakeContext.Get("IntProp").Returns("Qux");
+            var fakeContext = new DefaultConfigurationContext();
+            fakeContext.Put("IntProp", "Qux");
 
             var builder = new TargetBuilder(typeof(TestConfig), fakeContext);
 
-            Should.Throw<ValidationException>(() => builder.Build());
+            Action bad = () => builder.Build();
+
+            bad.ShouldThrow<ValidationException>();
         }
 
         [Fact]
         public void Constructs_target_with_private_setters()
         {
-            var fakeContext = Substitute.For<IConfigurationContext>();
-            fakeContext.Get("StringProp").Returns("Qux");
-            fakeContext.Get("IntProp").Returns("123");
-            fakeContext.Get("More.Blah").Returns("Foo1");
-            fakeContext.Get("More.Blarg").Returns("Foo2");
+            var fakeContext = new DefaultConfigurationContext();
+            fakeContext.Put("StringProp", "Qux");
+            fakeContext.Put("IntProp", "123");
+            fakeContext.Put("More.Blah", "Foo1");
+            fakeContext.Put("More.Blarg", "Foo2");
 
             var builder = new TargetBuilder(typeof(TestConfigPrivate), fakeContext);
             var result = (TestConfigPrivate)builder.Build();
 
-            result.StringProp.ShouldBe("Qux");
-            result.IntProp.ShouldBe(123);
-            result.More.Blah.ShouldBe("Foo1");
-            result.More.Blarg.ShouldBe("Foo2");
+            result.StringProp.Should().Be("Qux");
+            result.IntProp.Should().Be(123);
+            result.More.Blah.Should().Be("Foo1");
+            result.More.Blarg.Should().Be("Foo2");
         }
     }
 }

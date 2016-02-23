@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace FlexibleConfiguration.Providers
 {
-    internal sealed class ExplicitProvider : AbstractConfigurationProvider
+    public sealed class ExplicitProvider : AbstractConfigurationProvider
     {
         private readonly IEnumerable<KeyValuePair<string, string>> items;
 

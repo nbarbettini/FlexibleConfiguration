@@ -2,7 +2,8 @@
 // Copyright (c) Nate Barbettini. All rights reserved.
 // </copyright>
 
-using Shouldly;
+using System;
+using FluentAssertions;
 using Xunit;
 
 namespace FlexibleConfiguration.Tests.EndToEnd
@@ -14,8 +15,9 @@ namespace FlexibleConfiguration.Tests.EndToEnd
         {
             var configurationBuilder = new FlexibleConfiguration<TestConfig>();
 
-            Should.Throw<ValidationException>(
-                () => configurationBuilder.Verify(ctx => ctx.Exists("foo"), "Does not exist"));
+            Action bad = () => configurationBuilder.Verify(ctx => ctx.Exists("foo"), "Does not exist");
+
+            bad.ShouldThrow<ValidationException>();
         }
 
         [Fact]
@@ -25,8 +27,9 @@ namespace FlexibleConfiguration.Tests.EndToEnd
 
             configurationBuilder.Add("foo", null);
 
-            Should.Throw<ValidationException>(
-                () => configurationBuilder.Verify(ctx => ctx.Exists("foo"), "Does not exist"));
+            Action bad = () => configurationBuilder.Verify(ctx => ctx.Exists("foo"), "Does not exist");
+
+            bad.ShouldThrow<ValidationException>();
         }
 
         [Fact]
@@ -36,8 +39,9 @@ namespace FlexibleConfiguration.Tests.EndToEnd
 
             configurationBuilder.Add("foo", "bar");
 
-            Should.NotThrow(
-                () => configurationBuilder.Verify(ctx => ctx.Exists("foo"), "Does not exist"));
+            Action good = () => configurationBuilder.Verify(ctx => ctx.Exists("foo"), "Does not exist");
+
+            good.ShouldNotThrow();
         }
 
         [Fact]
@@ -47,14 +51,16 @@ namespace FlexibleConfiguration.Tests.EndToEnd
 
             configurationBuilder.Add("foo", "bar");
 
-            Should.NotThrow(
-                () => configurationBuilder.Verify(
+            Action good = () => 
+                configurationBuilder.Verify(
                     ctx =>
                     {
                         var fooValue = ctx.Get("foo");
                         return fooValue == "bar";
                     },
-                "Failed validation"));
+                "Failed validation");
+
+            good.ShouldNotThrow();
         }
 
         [Fact]
@@ -64,14 +70,16 @@ namespace FlexibleConfiguration.Tests.EndToEnd
 
             configurationBuilder.Add("foo", "baz");
 
-            Should.Throw<ValidationException>(
-                () => configurationBuilder.Verify(
+            Action bad = () =>
+                configurationBuilder.Verify(
                     ctx =>
-                {
-                    var fooValue = ctx.Get("foo");
-                    return fooValue == "bar";
-                },
-                "Failed validation"));
+                    {
+                        var fooValue = ctx.Get("foo");
+                        return fooValue == "bar";
+                    },
+                "Failed validation");
+
+            bad.ShouldThrow<ValidationException>();
         }
     }
 }

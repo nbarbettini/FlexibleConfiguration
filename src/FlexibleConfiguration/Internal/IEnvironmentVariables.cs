@@ -2,7 +2,6 @@
 // Copyright (c) Nate Barbettini. All rights reserved.
 // </copyright>
 
-using System;
 using System.Collections;
 
 namespace FlexibleConfiguration.Internal
@@ -14,11 +13,7 @@ namespace FlexibleConfiguration.Internal
 
         string GetEnvironmentVariable(string variable);
 
-        string GetEnvironmentVariable(string variable, EnvironmentVariableTarget target);
-
         IDictionary GetEnvironmentVariables();
-
-        IDictionary GetEnvironmentVariables(EnvironmentVariableTarget target);
     }
 #pragma warning restore SA1600 // Elements must be documented
 }

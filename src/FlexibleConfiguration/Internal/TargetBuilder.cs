@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace FlexibleConfiguration.Internal
 {
-    internal sealed class TargetBuilder
+    public sealed class TargetBuilder
     {
         private readonly Type type;
         private readonly IConfigurationContext context;
@@ -121,9 +121,18 @@ namespace FlexibleConfiguration.Internal
 
         private static bool IsSupportedPrimitive(Type type)
         {
+#if !NET35 && !NET40
+            var typeInfo = type.GetTypeInfo();
+#endif
+
             return
-                type.IsValueType ||
-                type.IsPrimitive ||
+
+#if NET35 || NET40
+                type.IsValueType || type.IsPrimitive ||
+#else
+                typeInfo.IsValueType || typeInfo.IsPrimitive ||
+#endif
+
                 type == typeof(string);
         }
     }

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace FlexibleConfiguration.Providers
 {
-    internal abstract class AbstractConfigurationProvider
+    public abstract class AbstractConfigurationProvider
     {
         public void ApplyConfiguration(IConfigurationContext context)
         {

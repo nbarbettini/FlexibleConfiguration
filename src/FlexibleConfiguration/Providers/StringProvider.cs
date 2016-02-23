@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace FlexibleConfiguration.Providers
 {
-    internal sealed class StringProvider : AbstractConfigurationProvider
+    public sealed class StringProvider : AbstractConfigurationProvider
     {
         private readonly string config;
 

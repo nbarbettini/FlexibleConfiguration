@@ -10,7 +10,7 @@ using YamlDotNet.Serialization;
 
 namespace FlexibleConfiguration.Providers
 {
-    internal sealed class JsonProvider : AbstractConfigurationProvider
+    public sealed class JsonProvider : AbstractConfigurationProvider
     {
         private readonly string json;
         private readonly string root;

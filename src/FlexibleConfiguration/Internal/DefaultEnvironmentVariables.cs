@@ -15,13 +15,7 @@ namespace FlexibleConfiguration.Internal
         public string GetEnvironmentVariable(string variable)
             => Environment.GetEnvironmentVariable(variable);
 
-        public string GetEnvironmentVariable(string variable, EnvironmentVariableTarget target)
-            => Environment.GetEnvironmentVariable(variable, target);
-
         public IDictionary GetEnvironmentVariables()
             => Environment.GetEnvironmentVariables();
-
-        public IDictionary GetEnvironmentVariables(EnvironmentVariableTarget target)
-            => Environment.GetEnvironmentVariables(target);
     }
 }

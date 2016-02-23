@@ -9,11 +9,11 @@ using Map = System.Collections.Generic.IDictionary<string, object>;
 
 namespace FlexibleConfiguration.Internal
 {
-    internal sealed class DefaultConfigurationContext : IConfigurationContext
+    public sealed class DefaultConfigurationContext : IConfigurationContext
     {
         private readonly Map configMap;
 
-        internal DefaultConfigurationContext()
+        public DefaultConfigurationContext()
         {
             this.configMap = new Dictionary<string, object>();
         }
@@ -46,7 +46,7 @@ namespace FlexibleConfiguration.Internal
                             }
                             else
                             {
-                                throw new ApplicationException($"Element '{token}' is a value and cannot contain children.");
+                                throw new ParseException($"Element '{token}' is a value and cannot contain children.");
                             }
                         }
                     }
@@ -88,7 +88,7 @@ namespace FlexibleConfiguration.Internal
                             }
                             else
                             {
-                                throw new ApplicationException($"Expecting to find a node named {token}; found a value instead.");
+                                throw new ParseException($"Expecting to find a node named {token}; found a value instead.");
                             }
                         }
                     }

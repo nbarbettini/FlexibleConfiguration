@@ -3,7 +3,7 @@
 // </copyright>
 
 using System.Collections.Generic;
-using Shouldly;
+using FluentAssertions;
 using Xunit;
 
 namespace FlexibleConfiguration.Tests.EndToEnd
@@ -17,9 +17,9 @@ namespace FlexibleConfiguration.Tests.EndToEnd
 
             var config = configurationBuilder.Build();
 
-            config.StringProp.ShouldBe(default(string));
-            config.IntProp.ShouldBe(default(int));
-            config.More.ShouldNotBeNull();
+            config.StringProp.Should().Be(default(string));
+            config.IntProp.Should().Be(default(int));
+            config.More.Should().NotBeNull();
         }
 
         [Fact]
@@ -30,9 +30,9 @@ namespace FlexibleConfiguration.Tests.EndToEnd
 
             var config = configurationBuilder.Build();
 
-            config.StringProp.ShouldBe(default(string));
-            config.IntProp.ShouldBe(default(int));
-            config.More.ShouldNotBeNull();
+            config.StringProp.Should().Be(default(string));
+            config.IntProp.Should().Be(default(int));
+            config.More.Should().NotBeNull();
         }
 
         [Fact]
@@ -44,9 +44,9 @@ namespace FlexibleConfiguration.Tests.EndToEnd
             configurationBuilder.Add("IntProp", 123);
             var config = configurationBuilder.Build();
 
-            config.StringProp.ShouldBe("cool");
-            config.IntProp.ShouldBe(123);
-            config.More.ShouldNotBeNull();
+            config.StringProp.Should().Be("cool");
+            config.IntProp.Should().Be(123);
+            config.More.Should().NotBeNull();
         }
 
         [Fact]
@@ -60,10 +60,10 @@ namespace FlexibleConfiguration.Tests.EndToEnd
             configurationBuilder.Add("More.Blarg", "rad!");
             var config = configurationBuilder.Build();
 
-            config.StringProp.ShouldBe("awesome");
-            config.IntProp.ShouldBe(456);
-            config.More.Blah.ShouldBe("sweet");
-            config.More.Blarg.ShouldBe("rad!");
+            config.StringProp.Should().Be("awesome");
+            config.IntProp.Should().Be(456);
+            config.More.Blah.Should().Be("sweet");
+            config.More.Blarg.Should().Be("rad!");
         }
 
         [Fact]
@@ -80,10 +80,10 @@ more.blarg = bar
             configurationBuilder.Add(rawConfig);
             var config = configurationBuilder.Build();
 
-            config.StringProp.ShouldBe("cool");
-            config.IntProp.ShouldBe(123);
-            config.More.Blah.ShouldBe("foo");
-            config.More.Blarg.ShouldBe("bar");
+            config.StringProp.Should().Be("cool");
+            config.IntProp.Should().Be(123);
+            config.More.Blah.Should().Be("foo");
+            config.More.Blarg.Should().Be("bar");
         }
 
         [Fact]
@@ -97,10 +97,10 @@ more.blarg = bar
             configurationBuilder.Add("More.BLARG", "rad!");
             var config = configurationBuilder.Build();
 
-            config.StringProp.ShouldBe("awesome");
-            config.IntProp.ShouldBe(456);
-            config.More.Blah.ShouldBe("sweet");
-            config.More.Blarg.ShouldBe("rad!");
+            config.StringProp.Should().Be("awesome");
+            config.IntProp.Should().Be(456);
+            config.More.Blah.Should().Be("sweet");
+            config.More.Blarg.Should().Be("rad!");
         }
 
         [Fact]
@@ -119,10 +119,10 @@ more.blarg = bar
             configurationBuilder.Add(defaultConfiguration);
             var config = configurationBuilder.Build();
 
-            config.StringProp.ShouldBe("awesome");
-            config.IntProp.ShouldBe(456);
-            config.More.Blah.ShouldBe("sweet");
-            config.More.Blarg.ShouldBe("rad!");
+            config.StringProp.Should().Be("awesome");
+            config.IntProp.Should().Be(456);
+            config.More.Blah.Should().Be("sweet");
+            config.More.Blarg.Should().Be("rad!");
         }
 
         [Fact]
@@ -142,9 +142,9 @@ more.blarg = bar
             configurationBuilder.Add("more.blah", "baz");
             var config = configurationBuilder.Build();
 
-            config.StringProp.ShouldBe("foobar");
-            config.More.Blah.ShouldBe("baz");
-            config.More.Blarg.ShouldBe("defaults");
+            config.StringProp.Should().Be("foobar");
+            config.More.Blah.Should().Be("baz");
+            config.More.Blarg.Should().Be("defaults");
         }
     }
 }
