@@ -32,19 +32,18 @@ namespace FlexibleConfiguration.Providers
         /// <param name="root">A root element to prepend to any discovered key.</param>
         public PropertiesFileProvider(string contents, string root)
         {
-            if (string.IsNullOrEmpty(contents))
-            {
-                throw new ArgumentException("Invalid file path", nameof(contents));
-            }
-
             this.contents = contents;
             this.root = root;
         }
 
         public override void Load()
         {
-            var data = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            if (string.IsNullOrEmpty(this.contents))
+            {
+                return;
+            }
 
+            var data = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
             var parser = new PropertiesFileParser(this.contents, this.root);
 
             foreach (var pair in parser.GetItems())
