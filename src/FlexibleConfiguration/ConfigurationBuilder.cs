@@ -11,16 +11,21 @@ namespace FlexibleConfiguration
     /// <summary>
     /// Builds a configuration object from a variety of sources.
     /// </summary>
-    public sealed class ConfigurationBuilder
+    public sealed class ConfigurationBuilder : IConfigurationBuilder
     {
         private readonly IList<IConfigurationProvider> providers = new List<IConfigurationProvider>();
+
+        /// <summary>
+        /// Returns the providers used to obtain configuation values.
+        /// </summary>
+        public IEnumerable<IConfigurationProvider> Providers => this.providers;
 
         /// <summary>
         /// Adds a new configuration provider.
         /// </summary>
         /// <param name="provider">The configuration provider to add.</param>
         /// <returns>The same <see cref="IConfigurationBuilder"/>.</returns>
-        public ConfigurationBuilder Add(IConfigurationProvider provider)
+        public IConfigurationBuilder Add(IConfigurationProvider provider)
         {
             provider.Load();
             this.providers.Add(provider);
