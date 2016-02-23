@@ -10,18 +10,20 @@ using FlexibleConfiguration.Abstractions;
 
 namespace FlexibleConfiguration.Providers
 {
-    public class PropertiesConfigurationFileParser
+    public class PropertiesFileParser
     {
+        private readonly string contents;
         private readonly string root;
 
-        public PropertiesConfigurationFileParser(string root)
+        public PropertiesFileParser(string contents, string root)
         {
+            this.contents = contents;
             this.root = root;
         }
 
-        public IEnumerable<KeyValuePair<string, string>> Parse(Stream stream)
+        public IEnumerable<KeyValuePair<string, string>> GetItems()
         {
-            using (var reader = new StreamReader(stream))
+            using (var reader = new StringReader(this.contents))
             {
                 while (reader.Peek() != -1)
                 {

@@ -28,6 +28,7 @@ namespace FlexibleConfiguration
         /// <summary>
         /// Adds configuration values from a JSON string.
         /// </summary>
+        /// <param name="builder">The <see cref="ConfigurationBuilder"/>.</param>
         /// <param name="json">The JSON string.</param>
         /// <param name="root">
         /// An optional root name to apply to any configuration values.
@@ -47,6 +48,7 @@ namespace FlexibleConfiguration
         /// <summary>
         /// Adds configuration values from a JSON file.
         /// </summary>
+        /// <param name="builder">The <see cref="ConfigurationBuilder"/>.</param>
         /// <param name="filePath">The file path.</param>
         /// <param name="required">
         /// Determines whether the file can be skipped silently. If <paramref name="required"/> is <see langword="true"/>,
@@ -73,6 +75,7 @@ namespace FlexibleConfiguration
         /// <summary>
         /// Adds configuration values from a YAML string.
         /// </summary>
+        /// <param name="builder">The <see cref="ConfigurationBuilder"/>.</param>
         /// <param name="yaml">The YAML string.</param>
         /// <param name="root">
         /// An optional root name to apply to any configuration values.
@@ -92,6 +95,7 @@ namespace FlexibleConfiguration
         /// <summary>
         /// Adds configuration values from a YAML file.
         /// </summary>
+        /// <param name="builder">The <see cref="ConfigurationBuilder"/>.</param>
         /// <param name="filePath">The file path.</param>
         /// <param name="required">
         /// Determines whether the file can be skipped silently. If <paramref name="required"/> is <see langword="true"/>,
@@ -111,6 +115,54 @@ namespace FlexibleConfiguration
         {
             var yaml = FileOperations.Load(filePath, required);
             return builder.AddYaml(yaml, root);
+        }
+
+        /// <summary>
+        /// Adds configuration values from a string.
+        /// </summary>
+        /// <remarks>
+        /// Each line in the string will be treated as a separate configuration value, with the format:
+        /// <c>foo.bar = value</c>
+        /// </remarks>
+        /// <param name="builder">The <see cref="ConfigurationBuilder"/>.</param>
+        /// <param name="multiLineConfiguration">The configuration string.</param>
+        public static ConfigurationBuilder AddProperties(
+            this ConfigurationBuilder builder,
+            string multiLineConfiguration,
+            string root = null)
+        {
+            var provider = new PropertiesFileProvider(multiLineConfiguration, root);
+            builder.Add(provider);
+            return builder;
+        }
+
+        /// <summary>
+        /// Adds configuration values from a text file.
+        /// </summary>
+        /// <remarks>
+        /// Each line in the file will be treated as a separate configuration value, with the format:
+        /// <c>foo.bar = value</c>
+        /// </remarks>
+        /// <param name="builder">The <see cref="ConfigurationBuilder"/>.</param>
+        /// <param name="filePath">The file path.</param>
+        /// <param name="required">
+        /// Determines whether the file can be skipped silently. If <paramref name="required"/> is <see langword="true"/>,
+        /// and the file does not exist, a <see cref="System.IO.FileNotFoundException"/> will be thrown. If <paramref name="required"/>
+        /// is <see langword="false"/>, the method will return silently.
+        /// </param>
+        /// <param name="root">
+        /// An optional root name to apply to any configuration values.
+        /// For example, if <paramref name="root"/> is <c>foo</c>, and the value <c>bar = baz</c>
+        /// is discovered, the actual added value will be <c>foo.bar = baz</c>.
+        /// </param>
+        public static ConfigurationBuilder AddPropertiesFile(
+            this ConfigurationBuilder builder,
+            string filePath,
+            bool required = true,
+            string root = null)
+        {
+            var contents = FileOperations.Load(filePath, required);
+            return builder.AddProperties(contents);
         }
     }
 }
