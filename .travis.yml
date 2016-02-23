@@ -1,7 +1,0 @@
-language: csharp
-solution: FlexibleConfiguration.sln
-install:
-- travis_retry nuget restore -source "https://www.nuget.org/api/v2" ./FlexibleConfiguration.sln
-script:
-- xbuild ./FlexibleConfiguration.sln
-- mono ./packages/xunit.runner.console*/tools/xunit.console.exe ./FlexibleConfiguration.Tests/bin/Debug/FlexibleConfiguration.Tests.dll -noappdomain
