@@ -13,7 +13,7 @@ namespace FlexibleConfiguration
 {
     public static class ConfigurationBinder
     {
-        public static void Bind<T>(this IConfiguration configuration, T instance, BindingOptions bindingOptions = null)
+        public static void Bind<T>(this IConfiguration configuration, T instance)
             where T : class
         {
             if (configuration == null)
@@ -21,21 +21,9 @@ namespace FlexibleConfiguration
                 throw new ArgumentNullException(nameof(configuration));
             }
 
-            if (bindingOptions == null)
-            {
-                bindingOptions = new BindingOptions();
-            }
-
-            IConfiguration targetConfigurationSection = configuration;
-
-            if (!string.IsNullOrEmpty(bindingOptions.RootNode))
-            {
-                targetConfigurationSection = configuration.GetSection(bindingOptions.RootNode);
-            }
-
             if (instance != null)
             {
-                BindInstance(typeof(T), instance, targetConfigurationSection);
+                BindInstance(typeof(T), instance, configuration);
             }
         }
 
