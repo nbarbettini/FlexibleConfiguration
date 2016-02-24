@@ -1,6 +1,5 @@
-﻿// <copyright file="JsonProvider.cs" company="Nate Barbettini">
-// Copyright (c) Nate Barbettini. All rights reserved.
-// </copyright>
+﻿// Copyright (c) Nate Barbettini.
+// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 using System.IO;
 using System.Text;
