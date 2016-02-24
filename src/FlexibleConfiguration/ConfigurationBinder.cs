@@ -125,8 +125,18 @@ namespace FlexibleConfiguration
                     instance = CreateInstance(type);
                 }
 
+                // See if it's a ReadOnlyDictionary
+                var collectionInterface = FindOpenGenericInterface(typeof(IReadOnlyDictionary<,>), type);
+                if (collectionInterface != null)
+                {
+                    var genericDictionaryType = typeof(Dictionary<,>);
+                    var actualDictionaryType = genericDictionaryType.MakeGenericType(type.GenericTypeArguments);
+                    instance = Activator.CreateInstance(actualDictionaryType);
+                    type = actualDictionaryType;
+                }
+
                 // See if its a Dictionary
-                var collectionInterface = FindOpenGenericInterface(typeof(IDictionary<,>), type);
+                collectionInterface = FindOpenGenericInterface(typeof(IDictionary<,>), type);
                 if (collectionInterface != null)
                 {
                     BindDictionary(instance, collectionInterface, config);
@@ -137,6 +147,16 @@ namespace FlexibleConfiguration
                 }
                 else
                 {
+                    // See if it's an IReadOnlyCollection
+                    collectionInterface = FindOpenGenericInterface(typeof(IReadOnlyCollection<>), type);
+                    if (collectionInterface != null)
+                    {
+                        var genericListType = typeof(List<>);
+                        var actualListType = genericListType.MakeGenericType(type.GenericTypeArguments);
+                        instance = Activator.CreateInstance(actualListType);
+                        type = actualListType;
+                    }
+
                     // See if its an ICollection
                     collectionInterface = FindOpenGenericInterface(typeof(ICollection<>), type);
                     if (collectionInterface != null)
@@ -307,7 +327,14 @@ namespace FlexibleConfiguration
 
         private static Type FindOpenGenericInterface(Type expected, Type actual)
         {
-            var interfaces = actual.GetTypeInfo().ImplementedInterfaces;
+            var actualTypeInfo = actual.GetTypeInfo();
+            var interfaces = actualTypeInfo.ImplementedInterfaces.ToList();
+
+            if (actualTypeInfo.IsInterface)
+            {
+                interfaces.Add(actual);
+            }
+
             foreach (var interfaceType in interfaces)
             {
                 if (interfaceType.GetTypeInfo().IsGenericType &&

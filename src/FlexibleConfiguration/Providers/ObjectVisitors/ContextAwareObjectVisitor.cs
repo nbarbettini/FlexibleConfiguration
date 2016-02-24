@@ -54,7 +54,7 @@ namespace FlexibleConfiguration.Providers.ObjectVisitors
             this.items.AddRange(visitor.items);
         }
 
-        protected override void VisitDictionary(IDictionary dictionary)
+        protected override void VisitDictionary(IEnumerable dictionary)
         {
             var visitor = new ContextAwareDictionaryVisitor(this.context);
             visitor.VisitDictionary(dictionary);

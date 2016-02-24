@@ -1,8 +1,10 @@
 ﻿// Copyright (c) Nate Barbettini.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace FlexibleConfiguration.Providers.ObjectVisitors
@@ -14,11 +16,30 @@ namespace FlexibleConfiguration.Providers.ObjectVisitors
         {
         }
 
-        protected override void VisitDictionary(IDictionary dictionary)
+        protected override void VisitDictionary(IEnumerable dictionary)
         {
-            foreach (DictionaryEntry entry in dictionary)
+            foreach (object entry in dictionary)
             {
-                VisitProperty(entry.Key.ToString(), entry.Value.GetType().GetTypeInfo(), entry.Value);
+                var entryType = entry.GetType();
+                var entryTypeInfo = entryType.GetTypeInfo();
+
+                if (!entryTypeInfo.IsGenericType)
+                {
+                    throw new Exception("Unknown dictionary entry type definition.");
+                }
+
+                if (entryType.GetGenericTypeDefinition() != typeof(KeyValuePair<,>))
+                {
+                    throw new Exception("Unknown dictionary entry type.");
+                }
+
+                var keyProperty = entryTypeInfo.DeclaredProperties.Where(p => p.Name == "Key").SingleOrDefault();
+                var valueProperty = entryTypeInfo.DeclaredProperties.Where(p => p.Name == "Value").SingleOrDefault();
+
+                var key = keyProperty.GetValue(entry);
+                var value = valueProperty.GetValue(entry);
+
+                VisitProperty(key.ToString(), value.GetType().GetTypeInfo(), value);
             }
         }
     }

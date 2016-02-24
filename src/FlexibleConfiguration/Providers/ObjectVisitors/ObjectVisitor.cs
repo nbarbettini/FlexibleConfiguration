@@ -3,6 +3,8 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using FlexibleConfiguration.Internal;
 
@@ -32,9 +34,9 @@ namespace FlexibleConfiguration.Providers.ObjectVisitors
             {
                 VisitPrimitive(actualValue);
             }
-            else if (typeof(IDictionary).GetTypeInfo().IsAssignableFrom(propertyTypeInfo))
+            else if (IsDictionaryLike(propertyTypeInfo))
             {
-                VisitDictionary(actualValue as IDictionary);
+                VisitDictionary(actualValue as IEnumerable);
             }
             else if (typeof(IEnumerable).GetTypeInfo().IsAssignableFrom(propertyTypeInfo))
             {
@@ -60,7 +62,7 @@ namespace FlexibleConfiguration.Providers.ObjectVisitors
             // Do nothing.
         }
 
-        protected virtual void VisitDictionary(IDictionary dictionary)
+        protected virtual void VisitDictionary(IEnumerable dictionary)
         {
             // Do nothing.
         }
@@ -71,6 +73,46 @@ namespace FlexibleConfiguration.Providers.ObjectVisitors
                 || typeInfo.IsEnum
                 || typeInfo == typeof(string).GetTypeInfo()
                 || IsNullable(typeInfo.AsType());
+        }
+
+        protected static bool IsDictionaryLike(TypeInfo typeInfo)
+        {
+            var enumerableType = typeof(IEnumerable<>);
+            var kvpType = typeof(KeyValuePair<,>);
+
+            // typeof(IEnumerable<KeyValuePair<,>>)
+            var dictionaryLikeType = enumerableType.MakeGenericType(new Type[] { kvpType });
+
+            foreach (var @interface in typeInfo.ImplementedInterfaces)
+            {
+                if (!@interface.GetTypeInfo().IsGenericType)
+                {
+                    continue;
+                }
+
+                var genericTypeDefinition = @interface.GetGenericTypeDefinition();
+
+                if (genericTypeDefinition != typeof(IEnumerable<>))
+                {
+                    continue;
+                }
+
+                if (@interface.GenericTypeArguments.Count() != 1 || !@interface.GenericTypeArguments.Single().GetTypeInfo().IsGenericType)
+                {
+                    continue;
+                }
+
+                var innerGenericTypeDefinition = @interface.GenericTypeArguments.Single().GetGenericTypeDefinition();
+
+                if (innerGenericTypeDefinition != typeof(KeyValuePair<,>))
+                {
+                    continue;
+                }
+
+                return true;
+            }
+
+            return false;
         }
 
         private static bool IsNullable(Type possiblyNullable)
