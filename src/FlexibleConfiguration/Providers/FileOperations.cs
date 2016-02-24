@@ -5,7 +5,7 @@ using System.IO;
 
 namespace FlexibleConfiguration.Providers
 {
-    private static class FileOperations
+    public static class FileOperations
     {
         public static string Load(string path, bool optional)
         {
