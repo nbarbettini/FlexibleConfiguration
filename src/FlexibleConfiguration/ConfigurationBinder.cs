@@ -113,7 +113,7 @@ namespace FlexibleConfiguration
                 {
                     var genericDictionaryType = typeof(Dictionary<,>);
                     var actualDictionaryType = genericDictionaryType.MakeGenericType(type.GenericTypeArguments);
-                    instance = Activator.CreateInstance(actualDictionaryType);
+                    instance = Activator.CreateInstance(actualDictionaryType, StringComparer.OrdinalIgnoreCase);
                     type = actualDictionaryType;
                 }
 
