@@ -13,7 +13,7 @@ namespace FlexibleConfiguration
 {
     public static class ConfigurationBinder
     {
-        public static void Bind<T>(this IConfiguration configuration, T instance, T defaultValue = null, BindingOptions bindingOptions = null)
+        public static void Bind<T>(this IConfiguration configuration, T instance, BindingOptions bindingOptions = null)
             where T : class
         {
             if (configuration == null)
@@ -35,7 +35,7 @@ namespace FlexibleConfiguration
 
             if (instance != null)
             {
-                BindInstance(typeof(T), instance, defaultValue, targetConfigurationSection);
+                BindInstance(typeof(T), instance, targetConfigurationSection);
             }
         }
 
@@ -64,18 +64,18 @@ namespace FlexibleConfiguration
             return defaultValue;
         }
 
-        private static void BindNonScalar(this IConfiguration configuration, object instance, object defaultValue)
+        private static void BindNonScalar(this IConfiguration configuration, object instance)
         {
             if (instance != null)
             {
                 foreach (var property in GetAllProperties(instance.GetType().GetTypeInfo()))
                 {
-                    BindProperty(property, instance, defaultValue, configuration);
+                    BindProperty(property, instance, configuration);
                 }
             }
         }
 
-        private static void BindProperty(PropertyInfo property, object instance, object defaultValue, IConfiguration config)
+        private static void BindProperty(PropertyInfo property, object instance, IConfiguration config)
         {
             // We don't support set only, non public, or indexer properties
             if (property.GetMethod == null ||
@@ -95,20 +95,14 @@ namespace FlexibleConfiguration
                 return;
             }
 
-            object defaultPropertyValue = null;
-            if (defaultValue != null)
-            {
-                defaultPropertyValue = property.GetValue(defaultValue);
-            }
-
-            propertyValue = BindInstance(property.PropertyType, propertyValue, defaultPropertyValue, config.GetSection(property.Name));
+            propertyValue = BindInstance(property.PropertyType, propertyValue, config.GetSection(property.Name));
             if (propertyValue != null && hasAvailableSetter)
             {
                 property.SetValue(instance, propertyValue);
             }
         }
 
-        private static object BindInstance(Type type, object instance, object defaultValue, IConfiguration config)
+        private static object BindInstance(Type type, object instance, IConfiguration config)
         {
             var section = config as IConfigurationSection;
             var configValue = section?.Value;
@@ -166,13 +160,9 @@ namespace FlexibleConfiguration
                     // Something else
                     else
                     {
-                        BindNonScalar(config, instance, defaultValue);
+                        BindNonScalar(config, instance);
                     }
                 }
-            }
-            else if (defaultValue != null)
-            {
-                return defaultValue;
             }
 
             return instance;
@@ -233,7 +223,6 @@ namespace FlexibleConfiguration
                 var item = BindInstance(
                     type: valueType,
                     instance: null,
-                    defaultValue: null, // todo
                     config: child);
                 if (item != null)
                 {
@@ -258,7 +247,6 @@ namespace FlexibleConfiguration
                     var item = BindInstance(
                         type: itemType,
                         instance: null,
-                        defaultValue: null, // todo
                         config: section);
                     if (item != null)
                     {
@@ -291,7 +279,6 @@ namespace FlexibleConfiguration
                     var item = BindInstance(
                         type: elementType,
                         instance: null,
-                        defaultValue: null, // todo
                         config: children[i]);
                     if (item != null)
                     {
