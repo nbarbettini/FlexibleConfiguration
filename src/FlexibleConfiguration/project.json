@@ -41,5 +41,5 @@
   "tooling": {
     "defaultNamespace": "FlexibleConfiguration"
   },
-  "version": "0.3.0-beta1"
+  "version": "1.0.0"
 }
