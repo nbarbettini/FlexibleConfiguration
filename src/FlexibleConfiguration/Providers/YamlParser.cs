@@ -21,8 +21,6 @@ namespace FlexibleConfiguration.Providers
         public IDictionary<string, string> Parse(Stream input)
         {
             IDictionary<string, string> data = new SortedDictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-
-            data.Clear();
             var visitor = new ContextAwareVisitor();
 
             try
