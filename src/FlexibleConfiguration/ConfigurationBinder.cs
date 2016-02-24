@@ -264,7 +264,9 @@ namespace FlexibleConfiguration
         {
             if (type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
             {
-                return ConvertValue(Nullable.GetUnderlyingType(type), value);
+                return string.IsNullOrEmpty(value)
+                    ? null
+                    : ConvertValue(Nullable.GetUnderlyingType(type), value);
             }
 
             try
