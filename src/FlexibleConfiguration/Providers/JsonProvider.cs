@@ -8,7 +8,7 @@ using FlexibleConfiguration.Internal;
 
 namespace FlexibleConfiguration.Providers
 {
-    public sealed class JsonProvider : ConfigurationProvider // todo unseal
+    public class JsonProvider : ConfigurationProvider // todo unseal
     {
         private readonly string json;
         private readonly string root;

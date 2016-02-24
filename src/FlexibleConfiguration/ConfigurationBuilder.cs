@@ -11,7 +11,7 @@ namespace FlexibleConfiguration
     /// <summary>
     /// Builds a configuration object from a variety of sources.
     /// </summary>
-    public sealed class ConfigurationBuilder : IConfigurationBuilder
+    public class ConfigurationBuilder : IConfigurationBuilder
     {
         private readonly IList<IConfigurationProvider> providers = new List<IConfigurationProvider>();
 

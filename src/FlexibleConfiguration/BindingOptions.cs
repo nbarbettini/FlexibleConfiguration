@@ -3,7 +3,7 @@
 
 namespace FlexibleConfiguration
 {
-    public sealed class BindingOptions
+    public class BindingOptions
     {
         public string RootNode { get; set; } = string.Empty;
     }

@@ -7,7 +7,7 @@ using FlexibleConfiguration.Internal;
 
 namespace FlexibleConfiguration.Providers
 {
-    public sealed class YamlProvider : ConfigurationProvider
+    public class YamlProvider : ConfigurationProvider
     {
         private readonly string yaml;
         private readonly string root;

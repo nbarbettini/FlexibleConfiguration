@@ -8,7 +8,7 @@ using FlexibleConfiguration.Providers;
 
 namespace FlexibleConfiguration
 {
-    public static class IConfigurationBuilderProviderExtensions
+    public static class ConfigurationBuilderProviderExtensions
     {
         /// <summary>
         /// Adds an <see cref="IConfigurationProvider"/> that reads configuration values from environment variables

@@ -9,7 +9,7 @@ namespace FlexibleConfiguration
     /// <summary>
     /// Represents an error that occurs when parsing a configuration source.
     /// </summary>
-    public sealed class ParseException : Exception
+    public class ParseException : Exception
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ParseException"/> class
