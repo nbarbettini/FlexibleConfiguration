@@ -86,9 +86,9 @@ namespace FlexibleConfiguration
             }
 
             var propertyValue = property.GetValue(instance);
-            var hasPublicSetter = property.SetMethod != null && property.SetMethod.IsPublic;
+            var hasAvailableSetter = property.SetMethod != null && (property.SetMethod.IsPublic || property.SetMethod.IsAssembly);
 
-            if (propertyValue == null && !hasPublicSetter)
+            if (propertyValue == null && !hasAvailableSetter)
             {
                 // Property doesn't have a value and we cannot set it so there is no
                 // point in going further down the graph
@@ -102,7 +102,7 @@ namespace FlexibleConfiguration
             }
 
             propertyValue = BindInstance(property.PropertyType, propertyValue, defaultPropertyValue, config.GetSection(property.Name));
-            if (propertyValue != null && hasPublicSetter)
+            if (propertyValue != null && hasAvailableSetter)
             {
                 property.SetValue(instance, propertyValue);
             }
@@ -177,15 +177,15 @@ namespace FlexibleConfiguration
                 return Array.CreateInstance(typeInfo.GetElementType(), 0);
             }
 
-            var hasDefaultConstructor = typeInfo.DeclaredConstructors.Any(ctor => ctor.IsPublic && ctor.GetParameters().Length == 0);
-            if (!hasDefaultConstructor)
+            var defaultConstructor = typeInfo.DeclaredConstructors.FirstOrDefault(ctor => (ctor.IsPublic || ctor.IsAssembly) && ctor.GetParameters().Length == 0);
+            if (defaultConstructor == null)
             {
                 throw new InvalidOperationException($"Missing parameterless public constructor on type '{type.Name}'");
             }
 
             try
             {
-                return Activator.CreateInstance(type);
+                return defaultConstructor.Invoke(null);
             }
             catch (Exception ex)
             {
