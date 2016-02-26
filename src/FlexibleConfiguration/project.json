@@ -1,11 +1,12 @@
 {
-  "authors": [ "nbarbettini" ],
+  "authors": [ "Nate Barbettini" ],
   "copyright": "(c) 2016 Nate Barbettini",
   "dependencies": {
     "YamlDotNet": "3.8.0"
   },
-  "description": "Configure a .NET application from a variety of sources",
+  "description": "Configure a .NET application from a variety of sources.",
   "frameworks": {
+    "dnx451": { },
     "dotnet5.4": {
       "dependencies": {
         "Microsoft.CSharp": "4.0.1-beta-23516",
@@ -41,5 +42,5 @@
   "tooling": {
     "defaultNamespace": "FlexibleConfiguration"
   },
-  "version": "1.0.0"
+  "version": "1.0.1"
 }
