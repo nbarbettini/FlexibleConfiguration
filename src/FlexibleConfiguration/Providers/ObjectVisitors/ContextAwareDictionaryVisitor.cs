@@ -18,6 +18,11 @@ namespace FlexibleConfiguration.Providers.ObjectVisitors
 
         protected override void VisitDictionary(IEnumerable dictionary)
         {
+            if (dictionary == null)
+            {
+                return;
+            }
+
             foreach (object entry in dictionary)
             {
                 var entryType = entry.GetType();

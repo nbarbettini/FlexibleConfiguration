@@ -19,6 +19,11 @@ namespace FlexibleConfiguration.Providers.ObjectVisitors
 
         protected override void VisitEnumerable(IEnumerable enumerable)
         {
+            if (enumerable == null)
+            {
+                return;
+            }
+
             var enumerator = enumerable.GetEnumerator();
             while (enumerator.MoveNext())
             {
