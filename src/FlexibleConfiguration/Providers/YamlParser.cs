@@ -25,27 +25,20 @@ namespace FlexibleConfiguration.Providers
             IDictionary<string, string> data = new SortedDictionary<string, string>(StringComparer.OrdinalIgnoreCase);
             var visitor = new ContextAwareVisitor();
 
-            try
+            var yamlStream = new YamlStream();
+
+            using (var reader = new StreamReader(input))
             {
-                var yamlStream = new YamlStream();
+                yamlStream.Load(reader);
 
-                using (var reader = new StreamReader(input))
-                {
-                    yamlStream.Load(reader);
-
-                }
-
-                if (!yamlStream.Documents.Any())
-                {
-                    return data;
-                }
-
-                yamlStream.Accept(visitor);
             }
-            catch (YamlDotNet.Core.YamlException e)
+
+            if (!yamlStream.Documents.Any())
             {
-                throw new FormatException("Error parsing YAML.", e);
+                return data;
             }
+
+            yamlStream.Accept(visitor);
 
             foreach (var item in visitor.Items)
             {
