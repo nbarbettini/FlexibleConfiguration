@@ -26,7 +26,7 @@ namespace FlexibleConfiguration
             string root,
             ILogger logger = null)
         {
-            builder.Add(new EnvironmentVariablesProvider(mustStartWith, separator, root));
+            builder.Add(new EnvironmentVariablesProvider(mustStartWith, separator, root, logger));
             return builder;
         }
 
@@ -142,7 +142,7 @@ namespace FlexibleConfiguration
             string root = null,
             ILogger logger = null)
         {
-            var provider = new PropertiesFileProvider(multiLineConfiguration, root);
+            var provider = new PropertiesFileProvider(multiLineConfiguration, root, logger);
             return builder.Add(provider);
         }
 
@@ -216,7 +216,7 @@ namespace FlexibleConfiguration
                 throw new ArgumentNullException(nameof(IConfigurationBuilder));
             }
 
-            return builder.Add(new ObjectReflectionConfigurationProvider(@object, root));
+            return builder.Add(new ObjectReflectionConfigurationProvider(@object, root, logger));
         }
     }
 }

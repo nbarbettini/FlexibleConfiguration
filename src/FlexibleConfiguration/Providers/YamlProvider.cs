@@ -38,7 +38,7 @@ namespace FlexibleConfiguration.Providers
             }
             catch (YamlDotNet.Core.YamlException ex)
             {
-                logger.Log(new LogEntry(LogLevel.Error, string.Empty, "YamlProvider.Load", ex));
+                logger?.Log(new LogEntry(LogLevel.Error, string.Empty, $"{nameof(YamlProvider)}.Load", ex));
             }
         }
     }

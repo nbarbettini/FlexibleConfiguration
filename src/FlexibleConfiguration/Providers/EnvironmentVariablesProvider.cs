@@ -13,12 +13,14 @@ namespace FlexibleConfiguration.Providers
         private readonly string mustStartWith;
         private readonly string separator;
         private readonly string root;
+        private readonly ILogger logger;
 
-        public EnvironmentVariablesProvider(string mustStartWith, string separator, string root)
+        public EnvironmentVariablesProvider(string mustStartWith, string separator, string root, ILogger logger)
         {
             this.mustStartWith = mustStartWith;
             this.separator = separator;
             this.root = root;
+            this.logger = logger;
         }
 
         public override void Load()
@@ -26,23 +28,30 @@ namespace FlexibleConfiguration.Providers
             var data = new SortedDictionary<string, string>(StringComparer.OrdinalIgnoreCase);
             var enumerator = new EnvironmentVariablesEnumerator(mustStartWith, separator);
 
-            foreach (var item in enumerator.GetItems(Environment.GetEnvironmentVariables()))
+            try
             {
-                var key = item.Key;
-
-                if (!string.IsNullOrEmpty(this.root))
+                foreach (var item in enumerator.GetItems(Environment.GetEnvironmentVariables()))
                 {
-                    key = ConfigurationPath.Combine(this.root, key);
+                    var key = item.Key;
+
+                    if (!string.IsNullOrEmpty(this.root))
+                    {
+                        key = ConfigurationPath.Combine(this.root, key);
+                    }
+
+                    if (data.ContainsKey(key))
+                    {
+                        throw new FormatException(string.Format($"The key '{key}' is duplicated."));
+                    }
+                    data[key] = item.Value;
                 }
 
-                if (data.ContainsKey(key))
-                {
-                    throw new FormatException(string.Format($"The key '{key}' is duplicated."));
-                }
-                data[key] = item.Value;
+                Data = data;
             }
-
-            Data = data;
+            catch (Exception ex)
+            {
+                logger?.Log(new LogEntry(LogLevel.Error, string.Empty, $"{nameof(EnvironmentVariablesProvider)}.Load", ex));
+            }
         }
     }
 }

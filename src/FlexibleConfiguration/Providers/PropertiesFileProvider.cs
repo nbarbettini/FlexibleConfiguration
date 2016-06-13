@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using FlexibleConfiguration.Abstractions;
 using FlexibleConfiguration.Internal;
 
 namespace FlexibleConfiguration.Providers
@@ -15,25 +16,29 @@ namespace FlexibleConfiguration.Providers
     {
         private readonly string contents;
         private readonly string root;
+        private readonly ILogger logger;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="PropertiesConfigurationProvider"/>.
+        /// Initializes a new instance of <see cref="PropertiesFileProvider"/>.
         /// </summary>
         /// <param name="contents">The contents of the .properties configuration file.</param>
-        public PropertiesFileProvider(string contents)
-            : this(contents, root: null)
+        /// <param name="logger">The logger.</param>
+        public PropertiesFileProvider(string contents, ILogger logger)
+            : this(contents, root: null, logger: logger)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="PropertiesConfigurationProvider"/>.
+        /// Initializes a new instance of <see cref="PropertiesFileProvider"/>.
         /// </summary>
         /// <param name="contents">The contents of the .properties configuration file.</param>
         /// <param name="root">A root element to prepend to any discovered key.</param>
-        public PropertiesFileProvider(string contents, string root)
+        /// <param name="logger">The logger.</param>
+        public PropertiesFileProvider(string contents, string root, ILogger logger)
         {
             this.contents = contents;
             this.root = root;
+            this.logger = logger;
         }
 
         public override void Load()
@@ -46,17 +51,24 @@ namespace FlexibleConfiguration.Providers
             var data = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
             var parser = new PropertiesFileParser(this.contents, this.root);
 
-            foreach (var pair in parser.GetItems())
+            try
             {
-                if (data.ContainsKey(pair.Key))
+                foreach (var pair in parser.GetItems())
                 {
-                    throw new FormatException($"The key '{pair.Key}' is duplicated.");
+                    if (data.ContainsKey(pair.Key))
+                    {
+                        throw new FormatException($"The key '{pair.Key}' is duplicated.");
+                    }
+
+                    data[pair.Key] = pair.Value;
                 }
 
-                data[pair.Key] = pair.Value;
+                Data = data;
             }
-
-            Data = data;
+            catch (Exception ex)
+            {
+                logger?.Log(new LogEntry(LogLevel.Error, string.Empty, "YamlProvider.Load", ex));
+            }
         }
     }
 }

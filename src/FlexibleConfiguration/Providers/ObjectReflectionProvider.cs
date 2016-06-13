@@ -13,11 +13,13 @@ namespace FlexibleConfiguration.Providers
     {
         private readonly object sourceObject;
         private readonly string root;
+        private readonly ILogger logger;
 
-        public ObjectReflectionConfigurationProvider(object sourceObject, string root)
+        public ObjectReflectionConfigurationProvider(object sourceObject, string root, ILogger logger)
         {
             this.sourceObject = sourceObject;
             this.root = root;
+            this.logger = logger;
         }
 
         public override void Load()
@@ -25,23 +27,30 @@ namespace FlexibleConfiguration.Providers
             var data = new SortedDictionary<string, string>(StringComparer.OrdinalIgnoreCase);
             var items = ContextAwareObjectVisitor.Visit(this.sourceObject);
 
-            foreach (var item in items)
+            try
             {
-                var key = item.Key;
-
-                if (!string.IsNullOrEmpty(this.root))
+                foreach (var item in items)
                 {
-                    key = ConfigurationPath.Combine(this.root, key);
+                    var key = item.Key;
+
+                    if (!string.IsNullOrEmpty(this.root))
+                    {
+                        key = ConfigurationPath.Combine(this.root, key);
+                    }
+
+                    if (data.ContainsKey(key))
+                    {
+                        throw new FormatException($"The key '{key}' is duplicated.");
+                    }
+                    data[key] = item.Value;
                 }
 
-                if (data.ContainsKey(key))
-                {
-                    throw new FormatException($"The key '{key}' is duplicated.");
-                }
-                data[key] = item.Value;
+                Data = data;
             }
-
-            Data = data;
+            catch (Exception ex)
+            {
+                logger?.Log(new LogEntry(LogLevel.Error, string.Empty, $"{nameof(ObjectReflectionConfigurationProvider)}.Load", ex));
+            }
         }
     }
 }
