@@ -1,0 +1,31 @@
+{
+  "buildOptions": {
+    "debugType": "portable"
+  },
+  "dependencies": {
+    "dotnet-test-xunit": "2.2.0-preview2-build1029",
+    "FlexibleConfiguration": {
+      "target": "project",
+      "version": "1.2.0"
+    },
+    "FluentAssertions": "4.13.0",
+    "xunit": "2.1.0"
+  },
+  "frameworks": {
+    "netcoreapp1.0": {
+      "dependencies": {
+        "Microsoft.NETCore.App": {
+          "type": "platform",
+          "version": "1.0.0"
+        }
+      },
+      "imports": [
+        "dotnet5.4",
+        "portable-net451+win8"
+      ]
+    }
+  },
+  "testRunner": "xunit",
+  "version": "1.2.0"
+}
+
