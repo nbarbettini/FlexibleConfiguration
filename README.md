@@ -16,9 +16,7 @@ This project borrows heavily from code at [aspnet/Configuration](https://github.
 ## Supported Platforms
 
 * .NET Framework 4.5 and higher
-* CoreCLR (`dotnet5.4`)
-* DNX (`dnxcore50`)
-* Windows Store & UWP (`netcore50`)
+* .NET Core (`netstandard1.3`)
 
 ## Getting the Code
 
