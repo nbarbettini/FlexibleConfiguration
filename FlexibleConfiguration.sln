@@ -1,20 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "FlexibleConfiguration", "src\FlexibleConfiguration\FlexibleConfiguration.xproj", "{3EC9AF89-115D-4C23-AD4C-A7F01A4ACFC5}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{ECD0B957-73A2-4A3C-8E6C-37D10A556256}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1BCE6F87-F3D1-440F-B166-87D9CBC64BFD}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{D2EFDB52-E3C2-4FC5-AF04-2C70ED357EE6}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "FlexibleConfiguration.Tests", "test\FlexibleConfiguration.Tests\FlexibleConfiguration.Tests.xproj", "{BB766585-C771-42D7-AEBA-527A5D8707A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlexibleConfiguration", "src\FlexibleConfiguration\FlexibleConfiguration.csproj", "{3EC9AF89-115D-4C23-AD4C-A7F01A4ACFC5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlexibleConfiguration.Tests", "test\FlexibleConfiguration.Tests\FlexibleConfiguration.Tests.csproj", "{BB766585-C771-42D7-AEBA-527A5D8707A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
