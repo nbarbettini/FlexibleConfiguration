@@ -90,12 +90,9 @@ namespace FlexibleConfiguration.Providers.YamlVisitors
                 return true;
             }
 
-            if (!scalar.Tag.IsEmpty)
+            if (!scalar.Tag.IsEmpty && string.Equals(scalar.Tag.Value, "tag:yaml.org,2002:null", StringComparison.OrdinalIgnoreCase))
             {
-                if (string.Equals(scalar.Tag.Value, "tag:yaml.org,2002:null", StringComparison.OrdinalIgnoreCase))
-                {
-                    return true;
-                }
+                return true;
             }
 
             if (string.Equals(scalar.Value, "null", StringComparison.OrdinalIgnoreCase))
