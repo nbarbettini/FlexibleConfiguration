@@ -1,6 +1,6 @@
 # FlexibleConfiguration
 
-> :warning: When possible, use [.NET Configuration Providers](https://docs.microsoft.com/en-us/dotnet/core/extensions/configuration-providers) instead! This package was created before Configuration Providers were ready for primetime. This package is **no longer actively maintained**.
+> :warning: When possible, use [.NET Configuration Providers](https://docs.microsoft.com/en-us/dotnet/core/extensions/configuration-providers) instead! This package was created before Configuration Providers were ready for production use, and is **no longer actively maintained**.
 
 FlexibleConfiguration is a small library that makes it easy to gather application configuration from a variety of sources.
 
