@@ -51,6 +51,31 @@ namespace FlexibleConfiguration.Tests
 
             dest.IgnoredDest.Should().BeNullOrEmpty();
         }
+
+        [Fact]
+        public void ShouldBePreservedYaml()
+        {
+            var source =
+                        @"
+                        Foo: Foobar
+                        Bar: 32
+                        Child:
+                          Blah: o hai
+                          Qux: 64
+                        ";
+
+            var compiled = new ConfigurationBuilder()
+                .AddYaml(source)
+                .Build();
+
+            var dest = new TestTarget();
+            compiled.Bind(dest);
+
+            dest.Foo.Should().Be("Foobar");
+            dest.Bar.Should().Be(32);
+            dest.Child.Blah.Should().Be("o hai");
+            dest.Child.Qux.Should().Be(64);
+        }
     }
 }
 

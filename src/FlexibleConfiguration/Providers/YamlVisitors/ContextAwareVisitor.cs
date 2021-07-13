@@ -45,7 +45,7 @@ namespace FlexibleConfiguration.Providers.YamlVisitors
         {
             var nestedVisitor = new ContextAwareMappingVisitor(context);
             mapping.Accept(nestedVisitor);
-            
+
             foreach (var item in nestedVisitor.Items)
             {
                 this.items.Add(new KeyValuePair<string, string>(item.Key, item.Value));
@@ -90,7 +90,7 @@ namespace FlexibleConfiguration.Providers.YamlVisitors
                 return true;
             }
 
-            if (string.Equals(scalar.Tag, "tag:yaml.org,2002:null", StringComparison.OrdinalIgnoreCase))
+            if (!scalar.Tag.IsEmpty && string.Equals(scalar.Tag.Value, "tag:yaml.org,2002:null", StringComparison.OrdinalIgnoreCase))
             {
                 return true;
             }
