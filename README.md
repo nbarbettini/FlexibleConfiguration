@@ -1,17 +1,16 @@
 # FlexibleConfiguration
+
+> :warning: When possible, use [.NET Configuration Providers](https://docs.microsoft.com/en-us/dotnet/core/extensions/configuration-providers) instead! This package was created before Configuration Providers were ready for primetime. This package is **no longer actively maintained**.
+
 FlexibleConfiguration is a small library that makes it easy to gather application configuration from a variety of sources.
 
-Currently, these sources are supported:
+These sources are supported:
 * Manually-specified key-value pairs
 * Newline-delimited strings in the format `property.subProperty = value`
 * Environment variables
 * JSON (from a string or file)
 * YAML (from a string or file)
 * An existing object instance or anonymous type containing properties and values
-
-## Background
-
-This project borrows heavily from code at [aspnet/Configuration](https://github.com/aspnet/Configuration), which is a great library currently under development. I wanted to use the Configuration packages in my project, but it doesn't have a stable release yet, and is only compatible with .NET 4.5.1 or higher (or CoreCLR).
 
 ## Supported Platforms
 
@@ -20,5 +19,5 @@ This project borrows heavily from code at [aspnet/Configuration](https://github.
 
 ## Getting the Code
 
-* Via nuget: `install-package FlexibleConfiguration`
-* Cloning this repository: `git clone git@github.com:nbarbettini/FlexibleConfiguration.git`
+* Nuget: `install-package FlexibleConfiguration` or `dotnet add package FlexibleConfiguration`
+* Source code: `git clone git@github.com:nbarbettini/FlexibleConfiguration.git`
